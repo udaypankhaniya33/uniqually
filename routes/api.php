@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Admin endpoints/routes
+Route::group(['prefix' => 'admin'], function()
+{
+    Route::post('login', 'API\Admin\UserController@login');
 });
