@@ -21,7 +21,7 @@ class UserController extends BaseController
             $user = Auth::user();
             //Sending error if non admin user tried to access admin panel
             if($user->type !== config('constances.user_types')['ADMIN']){
-                return $this->sendError('Only admin Users can access admin panel!');
+                return $this->sendError('Only admin users can access admin panel!', [], '401');
             }
             $success['token'] =  $user->createToken('vManageTax')-> accessToken;
             return $this->sendResponse($success, 'Successfully Authenticated');
