@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // Admin endpoints/routes
-Route::group(['prefix' => 'admin'], function()
+Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
 {
     Route::post('login', 'API\Admin\UserController@login');
 });
