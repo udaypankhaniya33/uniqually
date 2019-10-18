@@ -17,4 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
 {
     Route::post('login', 'API\Admin\UserController@login');
+    Route::middleware('auth:api')->group( function () {
+        Route::get('users', 'API\Admin\UserController@index');
+    });
 });
