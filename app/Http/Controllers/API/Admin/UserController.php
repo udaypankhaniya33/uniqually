@@ -45,6 +45,6 @@ class UserController extends BaseController
     public function index(){
         $adminUsers = User::where('type', config('constances.user_types')['ADMIN'])->get();
         $success['adminUsers'] = $adminUsers;
-        return $this->sendResponse($success, 'Successfully Authenticated');
+        return $this->sendResponse($success, 'Successfully retrieved admin users');
     }
 }
