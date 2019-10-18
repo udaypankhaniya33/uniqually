@@ -23,7 +23,13 @@ class UserController extends BaseController
             if($user->type !== config('constances.user_types')['ADMIN']){
                 return $this->sendError('Only admin users can access admin panel!', [], '401');
             }
+            $userDetails = [
+                'name' => $user->name,
+                'id' => $user->id,
+                'email' => $user->email
+            ];
             $success['token'] =  $user->createToken('vManageTax')-> accessToken;
+            $success['user'] =  $userDetails;
             return $this->sendResponse($success, 'Successfully Authenticated');
         }else{
             return $this->sendError('Unauthorized', [], 401);
