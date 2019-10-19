@@ -58,4 +58,18 @@ class CouponCodesController extends BaseController
         $couponCode = CouponCode::where('id', request('id'))->update($incomingData);
         return $this->sendResponse([], 'Coupon code updated successfully.');
     }
+
+    /**
+     * Get all coupon codes
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            CouponCode::all()
+            , 'Successfully retrieved all coupon codes');
+    }
+
+
 }

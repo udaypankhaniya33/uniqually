@@ -21,5 +21,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::get('users', 'API\Admin\UserController@index');
         Route::post('coupon-codes', 'API\Admin\CouponCodesController@store');
         Route::put('coupon-codes/{id}', 'API\Admin\CouponCodesController@update');
+        Route::get('coupon-codes', 'API\Admin\CouponCodesController@index');
     });
 });
