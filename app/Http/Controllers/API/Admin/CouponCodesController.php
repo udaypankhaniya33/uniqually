@@ -71,5 +71,21 @@ class CouponCodesController extends BaseController
             , 'Successfully retrieved all coupon codes');
     }
 
+    /**
+     * Get all coupon codes
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $couponCode = CouponCode::find(request('id'));
+        if($couponCode){
+            $couponCode->delete();
+            return $this->sendResponse([], 'Coupon code deleted successfully.');
+        }else{
+            return $this->sendError('Could not find coupon code record for given ID', [], 404);
+        }
+    }
+
 
 }
