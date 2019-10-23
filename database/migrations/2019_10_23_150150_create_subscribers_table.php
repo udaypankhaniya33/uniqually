@@ -16,7 +16,8 @@ class CreateSubscribersTable extends Migration
         Schema::create('subscribers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('email')->unique();
-            $table->string('location')->nullable();
+            $table->json('location')->nullable();
+            $table->string('user_agent')->nullable();
             $table->integer('coupon_code_id')->nullable();
             $table->boolean('is_code_sent')->default(false);
             $table->timestamps();

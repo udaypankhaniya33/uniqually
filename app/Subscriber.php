@@ -12,6 +12,6 @@ class Subscriber extends Model
      * @var array
      */
     protected $fillable = [
-        'email', 'location', 'coupon_code_id', 'is_code_sent'
+        'email', 'location', 'user_agent', 'coupon_code_id', 'is_code_sent'
     ];
 }
