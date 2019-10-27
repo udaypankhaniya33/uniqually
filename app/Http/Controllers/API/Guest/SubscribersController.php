@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Guest;
 
 use App\CouponCode;
 use App\Http\Controllers\API\BaseController;
-use App\Mail\CouponCodeMailable;
+use App\Jobs\SendCouponCodeEmail;
 use App\Subscriber;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,11 +38,13 @@ class SubscribersController extends BaseController
         try {
             $createdSubscriber = Subscriber::create($incomingData);
             $randomCoupon = CouponCode::all()->where('is_enabled', '1')->random(1);
-            Mail::to($incomingData['email'])->send(new CouponCodeMailable($randomCoupon[0]->name, $randomCoupon[0]->discount));
+            dispatch(new SendCouponCodeEmail($incomingData['email'],$randomCoupon[0]->name,  $randomCoupon[0]->discount))
+                ->delay(Carbon::now()->addSeconds(3));
             $createdSubscriber->coupon_code_id = $randomCoupon[0]->id;
             $createdSubscriber->is_code_sent = true;
             $createdSubscriber->save();
-            return $this->sendResponse([], 'Thanks for completing the survey. You will receive discount code through email');
+            return $this->sendResponse([],
+                'Thanks for completing the survey. You will receive discount code through email');
         } catch (\Exception $ex) {
             return $this->sendError('Something went wrong while uploading',
                 ['error' => $ex->getMessage()], 422);
