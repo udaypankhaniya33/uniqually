@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::get('coupon-codes', 'API\Admin\CouponCodesController@index');
         Route::delete('coupon-codes/{id}', 'API\Admin\CouponCodesController@delete');
         Route::post('coupon-codes/csv', 'API\Admin\CouponCodesController@uploadCsv');
+        // Subscribers
+        Route::get('subscribers', 'API\Admin\SubscribersController@index');
     });
 });
 // Guest endpoints/routes
