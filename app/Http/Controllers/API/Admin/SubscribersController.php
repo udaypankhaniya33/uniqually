@@ -18,7 +18,8 @@ class SubscribersController extends BaseController
      */
     public function index(){
         $result = [];
-        $subscribers = Subscriber::all();
+        $subscribers = Subscriber::join('coupon_codes', 'subscribers.coupon_code_id', 'coupon_codes.id')
+        ->select('subscribers.*', 'coupon_codes.name as coupon_code')->get();
         foreach ($subscribers as $index => $subscriber){
             if($subscriber->location != null){
                 $subscriber->location = json_decode($subscriber->location);
