@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::post('coupon-codes/csv', 'API\Admin\CouponCodesController@uploadCsv');
         // Subscribers
         Route::get('subscribers', 'API\Admin\SubscribersController@index');
+        Route::post('subscribers/resend-coupon', 'API\Admin\SubscribersController@resendCoupon');
     });
 });
 // Guest endpoints/routes
