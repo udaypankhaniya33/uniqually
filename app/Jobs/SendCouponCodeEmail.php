@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Mail\CouponCodeMailable;
+use App\Subscriber;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,17 +19,19 @@ class SendCouponCodeEmail implements ShouldQueue
     private $email;
     private $coupon;
     private $discount;
+    private $subscriberId;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email, $coupon, $discount)
+    public function __construct($email, $coupon, $discount, $subscriberId)
     {
         $this->email = $email;
         $this->coupon = $coupon;
         $this->discount = $discount;
+        $this->subscriberId = $subscriberId;
     }
 
     /**
@@ -39,5 +43,11 @@ class SendCouponCodeEmail implements ShouldQueue
     {
         $email = new CouponCodeMailable($this->coupon, $this->discount);
         Mail::to($this->email)->send($email);
+        if (!Mail::failures()) {
+            Subscriber::where('id', $this->subscriberId)->update([
+                'is_code_sent' => true,
+                'updated_at' => Carbon::now()
+            ]);
+        }
     }
 }
