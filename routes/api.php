@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
     Route::middleware('auth:api')->group( function () {
         // Admin Users
         Route::get('users', 'API\Admin\UserController@index');
+        Route::post('users', 'API\Admin\UserController@store');
         // Coupon Codes
         Route::post('coupon-codes', 'API\Admin\CouponCodesController@store');
         Route::put('coupon-codes/{id}', 'API\Admin\CouponCodesController@update');

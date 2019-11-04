@@ -4,8 +4,11 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\API\BaseController;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
@@ -47,4 +50,29 @@ class UserController extends BaseController
         $success['adminUsers'] = $adminUsers;
         return $this->sendResponse($success, 'Successfully retrieved admin users');
     }
+
+    /**
+     * Add new admin users
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function store(){
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+        $incomingData = request()->all();
+        $incomingData['type'] = config('constances.user_types')['ADMIN'];
+        $incomingData['password'] = Hash::make($incomingData['password']);
+        $incomingData['created_at'] = Carbon::now();
+        $incomingData['updated_at'] = Carbon::now();
+        User::create($incomingData);
+        return $this->sendResponse([], 'Successfully created the new admin user');
+    }
+
 }
