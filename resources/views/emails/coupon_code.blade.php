@@ -158,7 +158,7 @@
                                     <div style="color:#555555;font-family:'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Geneva, Verdana, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div style="line-height: 1.2; font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Geneva, Verdana, sans-serif; font-size: 12px; color: #555555; mso-line-height-alt: 14px;">
                                             <p style="text-align: center; line-height: 1.2; font-size: 14px; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000; font-size: 14px;">Thanks for completing the survey !</span><span style="color: #000000; font-size: 14px;"></span></p>
-                                            <p style="text-align: center; line-height: 1.2; font-size: 16px; mso-line-height-alt: 19px; margin: 0;"><span style="font-size: 16px;">The{{$discount.'% '}} Discount Code is</span></p>
+                                            <p style="text-align: center; line-height: 1.2; font-size: 16px; mso-line-height-alt: 19px; margin: 0;"><span style="font-size: 16px;">The {{round($discount).'% '}} Discount Code is</span></p>
                                             <p style="text-align: center; line-height: 1.2; font-size: 12px; mso-line-height-alt: 14px; margin: 0;"> </p>
                                             <p style="text-align: center; line-height: 1.2; font-size: 16px; mso-line-height-alt: 19px; margin: 0;"><span style="color: #800080; font-size: 16px;">'{{$coupon}}'</span></p>
                                         </div>
@@ -193,7 +193,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div style="line-height: 1.2; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; color: #555555; mso-line-height-alt: 14px;">
-                                            <p style="line-height: 1.2; font-size: 14px; mso-line-height-alt: 17px; margin: 0;">As a token of appreciation, we’d like to offer you a {{$discount.'% '}} discount code that you can use on our website <a href="https://uniqally.com" rel="noopener" style="text-decoration: underline; color: #0068A5;" target="_blank">uniqally.com</a> to purchase Individual/Business Tax Services. Please watch out for our official launch date before you make your purchase. This coupon can be redeemed only through October 15th, 2020.  <br/><br/> <br/><br/>If you have any issues with the order submission or coupon redemption. Please send email to support@uniqally.com.</p>
+                                            <p style="line-height: 1.2; font-size: 14px; mso-line-height-alt: 17px; margin: 0;">As a token of appreciation, we’d like to offer you a {{round($discount).'% '}} discount code that you can use on our website <a href="https://uniqally.com" rel="noopener" style="text-decoration: underline; color: #0068A5;" target="_blank">uniqally.com</a> to purchase Individual/Business Tax Services. Please watch out for our official launch date before you make your purchase. This coupon can be redeemed only through October 15th, 2020.  <br/><br/> <br/><br/>If you have any issues with the order submission or coupon redemption. Please send email to support@uniqally.com.</p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
@@ -220,7 +220,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div style="line-height: 1.2; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 12px; color: #555555; mso-line-height-alt: 14px;">
-                                            <p style="text-align: center; line-height: 1.2; font-size: 14px; mso-line-height-alt: 17px; margin: 0;">© 2019 uniqally. All rights reserved.</p>
+                                            <p style="text-align: center; line-height: 1.2; font-size: 14px; mso-line-height-alt: 17px; margin: 0;">© 2019 UNIQALLY. All rights reserved.</p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->

@@ -32,6 +32,6 @@ class CouponCodeMailable extends Mailable
      */
     public function build()
     {
-        return $this->subject('vManageTax - Discount Code')->view('emails.coupon_code');
+        return $this->subject('Get '.round($this->discount).'% Discount off on your Tax Services')->view('emails.coupon_code');
     }
 }
