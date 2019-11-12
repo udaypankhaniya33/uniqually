@@ -30,6 +30,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         // Subscribers
         Route::get('subscribers', 'API\Admin\SubscribersController@index');
         Route::post('subscribers/resend-coupon', 'API\Admin\SubscribersController@resendCoupon');
+        // Package Categories
+        Route::post('package-categories', 'API\Admin\PackageCategoriesController@store');
     });
 });
 // Guest endpoints/routes
