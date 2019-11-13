@@ -74,4 +74,21 @@ class PackagesController extends BaseController
         $package = Package::where('id', request('id'))->update($incomingData);
         return $this->sendResponse([], 'Package updated successfully.');
     }
+
+    /**
+     * Delete packages
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $package = Package::find(request('id'));
+        if($package){
+            $package->delete();
+            return $this->sendResponse([], 'Package deleted successfully.');
+        }else{
+            return $this->sendError('Could not find package record for given ID', [], 404);
+        }
+    }
+
 }
