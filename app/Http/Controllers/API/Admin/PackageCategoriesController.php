@@ -72,4 +72,20 @@ class PackageCategoriesController extends BaseController
         return $this->sendResponse([], 'Package category updated successfully.');
     }
 
+    /**
+     * Delete package categories
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $packageCategory = PackageCategory::find(request('id'));
+        if($packageCategory){
+            $packageCategory->delete();
+            return $this->sendResponse([], 'Package category deleted successfully.');
+        }else{
+            return $this->sendError('Could not find package category record for given ID', [], 404);
+        }
+    }
+
 }
