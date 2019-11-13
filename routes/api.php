@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::get('subscribers', 'API\Admin\SubscribersController@index');
         Route::post('subscribers/resend-coupon', 'API\Admin\SubscribersController@resendCoupon');
         // Package Categories
+        Route::get('package-categories', 'API\Admin\PackageCategoriesController@index');
         Route::post('package-categories', 'API\Admin\PackageCategoriesController@store');
         Route::put('package-categories/{id}', 'API\Admin\PackageCategoriesController@update');
     });

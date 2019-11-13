@@ -12,6 +12,18 @@ class PackageCategoriesController extends BaseController
 {
 
     /**
+     * Get all package categories
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            PackageCategory::all()
+            , 'Successfully retrieved all package categories');
+    }
+
+    /**
      * Add new package categories
      * -----------------------------------------------------------------------------------------------------------------
      * @param request()
