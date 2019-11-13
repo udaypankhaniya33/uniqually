@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::delete('package-categories/{id}', 'API\Admin\PackageCategoriesController@delete');
         // Packages
         Route::post('packages', 'API\Admin\PackagesController@store');
+        Route::put('packages/{id}', 'API\Admin\PackagesController@update');
     });
 });
 // Guest endpoints/routes
