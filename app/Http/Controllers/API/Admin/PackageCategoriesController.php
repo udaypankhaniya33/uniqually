@@ -32,4 +32,32 @@ class PackageCategoriesController extends BaseController
         PackageCategory::create($incomingData);
         return $this->sendResponse([], 'Successfully created the package category');
     }
+
+    /**
+     * Update package categories
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function update(){
+        $validator = Validator::make(request()->all(), [
+            'title' => 'required|string',
+            'description_heading' => 'required|string',
+            'description' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+
+        $incomingData = [
+            'title' => request('title'),
+            'description_heading' => request('description_heading'),
+            'description' => request('description'),
+            'updated_at' => Carbon::now()
+        ];
+
+        $couponCode = PackageCategory::where('id', request('id'))->update($incomingData);
+        return $this->sendResponse([], 'Package category updated successfully.');
+    }
+
 }
