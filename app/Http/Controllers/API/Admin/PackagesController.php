@@ -12,6 +12,18 @@ class PackagesController extends BaseController
 {
 
     /**
+     * Get all packages
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            Package::all()
+            , 'Successfully retrieved all packages');
+    }
+
+    /**
      * Add new packages
      * -----------------------------------------------------------------------------------------------------------------
      * @param request()
