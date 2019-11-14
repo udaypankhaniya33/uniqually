@@ -32,4 +32,29 @@ class PackageAddonsController extends BaseController
         return $this->sendResponse([], 'Successfully created the package addon');
     }
 
+    /**
+     * Update package addons
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function update(){
+        $validator = Validator::make(request()->all(), [
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+
+        $incomingData = [
+            'title' => request('title'),
+            'price' => request('price'),
+            'updated_at' => Carbon::now()
+        ];
+
+        $packageAddon = PackageAddon::where('id', request('id'))->update($incomingData);
+        return $this->sendResponse([], 'Package addon updated successfully.');
+    }
+
 }
