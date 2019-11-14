@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PackageCategory extends Model
+class PackageAttribute extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,15 +12,15 @@ class PackageCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description_heading', 'description'
+        'package_id', 'attribute'
     ];
 
     /**
-     * Get the packages for the package category.
+     * Get the package that owns the attribute
      */
-    public function packages()
+    public function package()
     {
-        return $this->hasMany('App\Package');
+        return $this->belongsTo('App\Package');
     }
 
 }

@@ -16,10 +16,19 @@ class Package extends Model
     ];
 
     /**
+     * Get the package attributes for the package.
+     */
+    public function attributes()
+    {
+        return $this->hasMany('App\PackageAttribute');
+    }
+
+    /**
      * Get the package category that owns the package
      */
     public function packageCategory()
     {
         return $this->belongsTo('App\PackageCategory');
     }
+
 }
