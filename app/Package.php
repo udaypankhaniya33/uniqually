@@ -24,6 +24,14 @@ class Package extends Model
     }
 
     /**
+     * Get the q & a for the package.
+     */
+    public function questionAnswers()
+    {
+        return $this->hasMany('App\QuestionAnswer');
+    }
+
+    /**
      * Get the package category that owns the package
      */
     public function packageCategory()
