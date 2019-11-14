@@ -12,6 +12,18 @@ class PackageAddonsController extends BaseController
 {
 
     /**
+     * Get all package addons
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            PackageAddon::all()
+            , 'Successfully retrieved all package addons');
+    }
+
+    /**
      * Add new package addons
      * -----------------------------------------------------------------------------------------------------------------
      * @param request()

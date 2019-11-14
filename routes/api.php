@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::put('package-attributes/{id}', 'API\Admin\PackageAttributesController@update');
         Route::delete('package-attributes/{id}', 'API\Admin\PackageAttributesController@delete');
         // Package Addons
+        Route::get('package-addons', 'API\Admin\PackageAddonsController@index');
         Route::post('package-addons', 'API\Admin\PackageAddonsController@store');
         Route::put('package-addons/{id}', 'API\Admin\PackageAddonsController@update');
     });
