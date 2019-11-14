@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::get('package-addons', 'API\Admin\PackageAddonsController@index');
         Route::post('package-addons', 'API\Admin\PackageAddonsController@store');
         Route::put('package-addons/{id}', 'API\Admin\PackageAddonsController@update');
+        Route::delete('package-addons/{id}', 'API\Admin\PackageAddonsController@delete');
     });
 });
 // Guest endpoints/routes

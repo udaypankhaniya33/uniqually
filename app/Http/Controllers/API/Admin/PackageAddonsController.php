@@ -69,4 +69,20 @@ class PackageAddonsController extends BaseController
         return $this->sendResponse([], 'Package addon updated successfully.');
     }
 
+    /**
+     * Delete package addons
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $packageAddons = PackageAddon::find(request('id'));
+        if($packageAddons){
+            $packageAddons->delete();
+            return $this->sendResponse([], 'Package addon deleted successfully.');
+        }else{
+            return $this->sendError('Could not find package addon record for given ID', [], 404);
+        }
+    }
+
 }
