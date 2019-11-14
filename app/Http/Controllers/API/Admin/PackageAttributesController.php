@@ -69,4 +69,20 @@ class PackageAttributesController extends BaseController
         return $this->sendResponse([], 'Package attribute updated successfully.');
     }
 
+    /**
+     * Delete package attributes
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $packageAttributes = PackageAttribute::find(request('id'));
+        if($packageAttributes){
+            $packageAttributes->delete();
+            return $this->sendResponse([], 'Package attribute deleted successfully.');
+        }else{
+            return $this->sendError('Could not find package attribute record for given ID', [], 404);
+        }
+    }
+
 }
