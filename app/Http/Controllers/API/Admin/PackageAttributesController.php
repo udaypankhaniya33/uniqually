@@ -32,4 +32,30 @@ class PackageAttributesController extends BaseController
         PackageAttribute::create($incomingData);
         return $this->sendResponse([], 'Successfully created the package attribute');
     }
+
+    /**
+     * Update package attributes
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function update(){
+        $validator = Validator::make(request()->all(), [
+            'package_id' => 'required|integer',
+            'attribute' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+
+        $incomingData = [
+            'package_id' => request('package_id'),
+            'attribute' => request('attribute'),
+            'updated_at' => Carbon::now()
+        ];
+
+        $packageAttribute = PackageAttribute::where('id', request('id'))->update($incomingData);
+        return $this->sendResponse([], 'Package attribute updated successfully.');
+    }
+
 }
