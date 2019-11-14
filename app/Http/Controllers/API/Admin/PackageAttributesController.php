@@ -11,6 +11,17 @@ use Illuminate\Support\Facades\Validator;
 class PackageAttributesController extends BaseController
 {
 
+    /**
+     * Get all package attributes
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            PackageAttribute::all()
+            , 'Successfully retrieved all package attributes');
+    }
 
     /**
      * Add new package attributes
