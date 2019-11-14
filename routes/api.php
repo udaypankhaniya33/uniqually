@@ -40,6 +40,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::post('packages', 'API\Admin\PackagesController@store');
         Route::put('packages/{id}', 'API\Admin\PackagesController@update');
         Route::delete('packages/{id}', 'API\Admin\PackagesController@delete');
+        // Package Attributes
+        Route::post('package-attribute', 'API\Admin\PackageAttributesController@store');
     });
 });
 // Guest endpoints/routes
