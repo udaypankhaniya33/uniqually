@@ -54,6 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::get('question-answers', 'API\Admin\QuestionAnswersController@index');
         Route::post('question-answers', 'API\Admin\QuestionAnswersController@store');
         Route::put('question-answers/{id}', 'API\Admin\QuestionAnswersController@update');
+        Route::delete('question-answers/{id}', 'API\Admin\QuestionAnswersController@delete');
     });
 });
 // Guest endpoints/routes

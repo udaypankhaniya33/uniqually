@@ -72,4 +72,20 @@ class QuestionAnswersController extends BaseController
         return $this->sendResponse([], 'Q&A updated successfully.');
     }
 
+    /**
+     * Delete Q&A
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(){
+        $questionAnswer = QuestionAnswer::find(request('id'));
+        if($questionAnswer){
+            $questionAnswer->delete();
+            return $this->sendResponse([], 'Q&A deleted successfully.');
+        }else{
+            return $this->sendError('Could not find Q&A record for given ID', [], 404);
+        }
+    }
+
 }
