@@ -12,6 +12,18 @@ class QuestionAnswersController extends BaseController
 {
 
     /**
+     * Get all Q&A
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return $this->sendResponse(
+            QuestionAnswer::all()
+            , 'Successfully retrieved all Q&A');
+    }
+
+    /**
      * Add new q&a
      * -----------------------------------------------------------------------------------------------------------------
      * @param request()
