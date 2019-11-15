@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::post('package-addons', 'API\Admin\PackageAddonsController@store');
         Route::put('package-addons/{id}', 'API\Admin\PackageAddonsController@update');
         Route::delete('package-addons/{id}', 'API\Admin\PackageAddonsController@delete');
+        // Questions & Answers
+        Route::post('question-answers', 'API\Admin\QuestionAnswersController@store');
     });
 });
 // Guest endpoints/routes
