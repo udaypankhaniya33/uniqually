@@ -33,4 +33,31 @@ class QuestionAnswersController extends BaseController
         return $this->sendResponse([], 'Successfully created the Q & A');
     }
 
+    /**
+     * Update Q&A
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function update(){
+        $validator = Validator::make(request()->all(), [
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
+            'package_id' => 'required|integer'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+
+        $incomingData = [
+            'question' => request('question'),
+            'answer' => request('answer'),
+            'package_id' => request('package_id'),
+            'updated_at' => Carbon::now()
+        ];
+
+        $questionAnswer = QuestionAnswer::where('id', request('id'))->update($incomingData);
+        return $this->sendResponse([], 'Q&A updated successfully.');
+    }
+
 }
