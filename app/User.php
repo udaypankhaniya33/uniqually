@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type', 'first_name', 'last_name'
+        'name', 'email', 'password', 'type', 'first_name', 'last_name', 'activation_code', 'email_verified_at'
     ];
 
     /**
@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'activation_code', 'email_verified_at'
     ];
 
     /**
