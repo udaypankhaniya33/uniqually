@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\API\BaseController;
+use App\Jobs\SendVerificationEmail;
 use App\Notifications\VerifyCustomerRegistration;
 use App\User;
 use Carbon\Carbon;
@@ -47,7 +48,9 @@ class RegistrationController extends BaseController
              $user->save();
              $user->email = decrypt($user->email);
              $user->name = decrypt($user->name);
-             $user->notify(new VerifyCustomerRegistration($user));
+
+             dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));
+             //$user->notify(new VerifyCustomerRegistration($user));
              return $this->sendResponse([],
                 'Thank you for registering with uniqally. You will get your account activation code in your email');
         } catch (\Exception $ex) {

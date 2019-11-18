@@ -40,10 +40,10 @@ class VerifyCustomerRegistration extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('api/customer/register/verify/').$notifiable->activation_code;
+        $url = url('api/customer/register/verify').'/'.$notifiable->activation_code;
         return (new MailMessage)
-                    ->subject('Confirm your uniqally account')
-                    ->line('Thank you for registering with uniqally! Please before you begin, you must confirm your account.')
+                    ->subject('Confirm your email address for uniqally.com')
+                    ->line('Thank you for registering with uniqally! Please before you begin, you must confirm your email address.')
                     ->action('Confirm My Email', url($url))
                     ->line('Thank you for using uniqally!');
     }
