@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
 Route::group(['prefix' => 'guest', 'middleware' => 'cors'], function()
 {
     Route::post('subscribe', 'API\Guest\SubscribersController@store');
+    Route::get('pricing', 'API\Guest\PricingController@index');
 });
 // Customer endpoints/routes
 Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
