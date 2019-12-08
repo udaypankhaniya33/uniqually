@@ -34,7 +34,8 @@ class PricingController extends BaseController
 
         return $this->sendResponse([
             'packageCategories' => $packageCategories,
-            'activeCategoryPackages' => $packagesOfActiveCat
+            'activeCategoryPackages' => $packagesOfActiveCat,
+            'activeCategory' => $activeCategory
         ],
             'Successfully retrieved all pricing details');
 
