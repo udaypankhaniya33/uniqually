@@ -34,6 +34,7 @@ class PackagesController extends BaseController
             'title' => 'required|max:255',
             'description' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'discounted_price' => 'numeric',
             'package_category_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
@@ -57,6 +58,7 @@ class PackagesController extends BaseController
             'title' => 'required|max:255',
             'description' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'discounted_price' => 'numeric',
             'package_category_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
@@ -67,6 +69,7 @@ class PackagesController extends BaseController
             'title' => request('title'),
             'description' => request('description'),
             'price' => request('price'),
+            'discounted_price' => request('discounted_price'),
             'package_category_id' => request('package_category_id'),
             'updated_at' => Carbon::now()
         ];
