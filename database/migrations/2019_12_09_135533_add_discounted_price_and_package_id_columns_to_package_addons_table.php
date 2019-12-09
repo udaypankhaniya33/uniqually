@@ -16,8 +16,6 @@ class AddDiscountedPriceAndPackageIdColumnsToPackageAddonsTable extends Migratio
         Schema::table('package_addons', function (Blueprint $table) {
             $table->decimal('discounted_price')->default(0.00)
                 ->after('price')->nullable();
-            $table->unsignedBigInteger('package_id');
-            $table->foreign('package_id')->references('id')->on('packages');
         });
     }
 
@@ -30,7 +28,6 @@ class AddDiscountedPriceAndPackageIdColumnsToPackageAddonsTable extends Migratio
     {
         Schema::table('package_addons', function (Blueprint $table) {
             $table->dropColumn(['discounted_price']);
-            $table->dropColumn(['package_id']);
         });
     }
 }

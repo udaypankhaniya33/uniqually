@@ -29,7 +29,6 @@ class PricingController extends BaseController
         $packagesOfActiveCat = Package::where('package_category_id', $activeCategory->id)
             ->with('attributes')
             ->with('questionAnswers')
-            ->with('addons')
             ->get();
 
 
