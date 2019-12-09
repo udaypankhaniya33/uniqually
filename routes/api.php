@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::post('package-addons', 'API\Admin\PackageAddonsController@store');
         Route::put('package-addons/{id}', 'API\Admin\PackageAddonsController@update');
         Route::delete('package-addons/{id}', 'API\Admin\PackageAddonsController@delete');
+        // Package Addon associations
+        Route::post('package-addons-associate', 'API\Admin\PackageAddonsAssociationController@store');
         // Questions & Answers
         Route::get('question-answers', 'API\Admin\QuestionAnswersController@index');
         Route::post('question-answers', 'API\Admin\QuestionAnswersController@store');
