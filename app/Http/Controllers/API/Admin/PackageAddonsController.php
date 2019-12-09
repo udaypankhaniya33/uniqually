@@ -33,6 +33,8 @@ class PackageAddonsController extends BaseController
         $validator = Validator::make(request()->all(), [
             'title' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'discounted_price' => 'numeric',
+            'package_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -54,6 +56,8 @@ class PackageAddonsController extends BaseController
         $validator = Validator::make(request()->all(), [
             'title' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'discounted_price' => 'numeric',
+            'package_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -62,6 +66,8 @@ class PackageAddonsController extends BaseController
         $incomingData = [
             'title' => request('title'),
             'price' => request('price'),
+            'discounted_price' => request('price'),
+            'package_id' => request('price'),
             'updated_at' => Carbon::now()
         ];
 

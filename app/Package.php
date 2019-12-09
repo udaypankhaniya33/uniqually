@@ -39,4 +39,12 @@ class Package extends Model
         return $this->belongsTo('App\PackageCategory');
     }
 
+    /**
+     * Get the package addons of the package
+     */
+    public function addons()
+    {
+        return $this->hasMany('App\PackageAddon');
+    }
+
 }
