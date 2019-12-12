@@ -32,6 +32,7 @@ class PackageAddonsController extends BaseController
     public function store(){
         $validator = Validator::make(request()->all(), [
             'title' => 'required|string|max:255',
+            'description' => 'string|max:255',
             'price' => 'required|numeric',
             'discounted_price' => 'numeric'
         ]);
@@ -54,6 +55,7 @@ class PackageAddonsController extends BaseController
     public function update(){
         $validator = Validator::make(request()->all(), [
             'title' => 'required|string|max:255',
+            'description' => 'string|max:255',
             'price' => 'required|numeric',
             'discounted_price' => 'numeric'
         ]);
@@ -63,6 +65,7 @@ class PackageAddonsController extends BaseController
 
         $incomingData = [
             'title' => request('title'),
+            'description' => request('title'),
             'price' => request('price'),
             'discounted_price' => request('price'),
             'package_id' => request('price'),
