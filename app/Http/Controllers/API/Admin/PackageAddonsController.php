@@ -34,7 +34,8 @@ class PackageAddonsController extends BaseController
             'title' => 'required|string|max:255',
             'description' => 'string|max:255',
             'price' => 'required|numeric',
-            'discounted_price' => 'numeric'
+            'discounted_price' => 'numeric',
+            'maximum_quantity' => 'integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -57,7 +58,8 @@ class PackageAddonsController extends BaseController
             'title' => 'required|string|max:255',
             'description' => 'string|max:255',
             'price' => 'required|numeric',
-            'discounted_price' => 'numeric'
+            'discounted_price' => 'numeric',
+            'maximum_quantity' => 'integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -68,6 +70,7 @@ class PackageAddonsController extends BaseController
             'description' => request('title'),
             'price' => request('price'),
             'discounted_price' => request('price'),
+            'maximum_quantity' => request('maximum_quantity'),
             'package_id' => request('price'),
             'updated_at' => Carbon::now()
         ];
