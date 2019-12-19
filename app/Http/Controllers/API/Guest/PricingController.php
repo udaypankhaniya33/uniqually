@@ -23,7 +23,7 @@ class PricingController extends BaseController
         $activeCategory = $packageCategories[0];
 
         if(request()->has('catId')){
-            $activeCategory = PackageCategory::find((int)request('catId'));
+            $activeCategory = PackageCategory::with('questionAnswers')->find((int)request('catId'));
             if($activeCategory === null) $activeCategory = $packageCategories[0];
         }
 
