@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\API\BaseController;
-use App\QuestionAnswer;
+use App\PackageCategoryQuestionAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,7 @@ class QuestionAnswersController extends BaseController
      */
     public function index(){
         return $this->sendResponse(
-            QuestionAnswer::all()
+            PackageCategoryQuestionAnswer::all()
             , 'Successfully retrieved all Q&A');
     }
 
@@ -33,7 +33,7 @@ class QuestionAnswersController extends BaseController
         $validator = Validator::make(request()->all(), [
             'question' => 'required|string|max:255',
             'answer' => 'required|string|max:255',
-            'package_id' => 'required|integer'
+            'package_category_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -41,7 +41,7 @@ class QuestionAnswersController extends BaseController
         $incomingData = request()->all();
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
-        QuestionAnswer::create($incomingData);
+        PackageCategoryQuestionAnswer::create($incomingData);
         return $this->sendResponse([], 'Successfully created the Q & A');
     }
 
@@ -55,7 +55,7 @@ class QuestionAnswersController extends BaseController
         $validator = Validator::make(request()->all(), [
             'question' => 'required|string|max:255',
             'answer' => 'required|string|max:255',
-            'package_id' => 'required|integer'
+            'package_category_id' => 'required|integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -64,11 +64,11 @@ class QuestionAnswersController extends BaseController
         $incomingData = [
             'question' => request('question'),
             'answer' => request('answer'),
-            'package_id' => request('package_id'),
+            'package_category_id' => request('package_id'),
             'updated_at' => Carbon::now()
         ];
 
-        $questionAnswer = QuestionAnswer::where('id', request('id'))->update($incomingData);
+        $questionAnswer = PackageCategoryQuestionAnswer::where('id', request('id'))->update($incomingData);
         return $this->sendResponse([], 'Q&A updated successfully.');
     }
 
@@ -79,7 +79,7 @@ class QuestionAnswersController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function delete(){
-        $questionAnswer = QuestionAnswer::find(request('id'));
+        $questionAnswer = PackageCategoryQuestionAnswer::find(request('id'));
         if($questionAnswer){
             $questionAnswer->delete();
             return $this->sendResponse([], 'Q&A deleted successfully.');

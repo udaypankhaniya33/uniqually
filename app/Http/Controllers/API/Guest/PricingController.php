@@ -19,7 +19,7 @@ class PricingController extends BaseController
      */
     public function index(){
 
-        $packageCategories = PackageCategory::all();
+        $packageCategories = PackageCategory::with('questionAnswers')->get();
         $activeCategory = $packageCategories[0];
 
         if(request()->has('catId')){
@@ -29,7 +29,6 @@ class PricingController extends BaseController
 
         $packagesOfActiveCat = Package::where('package_category_id', $activeCategory->id)
             ->with('attributes')
-            ->with('questionAnswers')
             ->get();
 
         foreach ($packagesOfActiveCat as $index => $package) {

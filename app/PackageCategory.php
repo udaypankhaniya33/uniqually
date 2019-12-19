@@ -23,4 +23,12 @@ class PackageCategory extends Model
         return $this->hasMany('App\Package');
     }
 
+    /**
+     * Get the A & A for the package category.
+     */
+    public function questionAnswers()
+    {
+        return $this->hasMany('App\PackageCategoryQuestionAnswer');
+    }
+
 }
