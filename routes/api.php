@@ -70,9 +70,3 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
 {
     Route::post('register', 'API\User\RegistrationController@store');
 });
-// Social media authentication endpoints
-Route::group(['prefix' => 'auth', 'middleware' => 'cors'], function()
-{
-    Route::get('facebook', 'API\User\SocialAuthenticationController@redirectToProvider');
-    Route::get('facebook/callback', 'API\User\SocialAuthenticationController@handleProviderCallback');
-});
