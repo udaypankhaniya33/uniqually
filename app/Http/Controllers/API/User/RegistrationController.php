@@ -36,17 +36,17 @@ class RegistrationController extends BaseController
         $incomingData['type'] = config('constances.user_types')['CUSTOMER'];
         $incomingData['name'] = encrypt(request('first_name').' '.request('last_name'));
         $incomingData['password'] = Hash::make(request('password'));
-        $incomingData['email'] = encrypt(request('email'));
+        $incomingData['email'] = request('email');
         $incomingData['first_name'] = encrypt(request('first_name'));
         $incomingData['last_name'] = encrypt(request('last_name'));
         $incomingData['activation_code'] = Str::random(32);
+        $incomingData['is_social_auth'] = false;
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
 
         try {
              $user = new User($incomingData);
              $user->save();
-             $user->email = decrypt($user->email);
              $user->name = decrypt($user->name);
 
              dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));

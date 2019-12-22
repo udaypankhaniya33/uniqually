@@ -69,4 +69,5 @@ Route::group(['prefix' => 'guest', 'middleware' => 'cors'], function()
 Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
 {
     Route::post('register', 'API\User\RegistrationController@store');
+    Route::post('social-auth', 'API\User\SocialAuthController@auth');
 });

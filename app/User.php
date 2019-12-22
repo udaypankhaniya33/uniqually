@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PhpParser\Node\Scalar\String_;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -38,4 +39,15 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Check whether user already exists
+     * @param string
+     *
+     * @return boolean
+     */
+    public static function isUserExists($email) {
+        $count = User::where('email', $email)->count();
+        return $count > 0 ? true : false;
+    }
 }
