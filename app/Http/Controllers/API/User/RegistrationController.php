@@ -50,9 +50,11 @@ class RegistrationController extends BaseController
              $user->name = decrypt($user->name);
 
              dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));
-             //$user->notify(new VerifyCustomerRegistration($user));
-             return $this->sendResponse([],
-                'Thank you for registering with uniqally. You will get your account activation code in your email');
+
+             $user->activation_code = null;
+
+             return $this->sendResponse($user,
+                'Thank you for registering with UniaAlly. You will get your account activation code in your email');
         } catch (\Exception $ex) {
             return $this->sendError('Something went wrong while sending activation code',
                 ['error' => $ex->getMessage()], 422);
