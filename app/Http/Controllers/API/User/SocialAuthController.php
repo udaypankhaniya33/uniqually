@@ -43,8 +43,8 @@ class SocialAuthController extends BaseController
                 $newUser->save();
             }
             $createdUser = User::where('email', $user->email)->first();
-            $createdUser->name = decrypt($createdUser->name);
             $createdUser->token =  $createdUser->createToken('vManageTax')-> accessToken;
+            $createdUser->name = decrypt($createdUser->name);
             return $this->sendResponse($createdUser,
                 'Successfully authenticated!');
 

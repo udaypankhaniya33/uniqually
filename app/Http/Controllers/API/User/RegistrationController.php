@@ -54,6 +54,7 @@ class RegistrationController extends BaseController
 
              $user->activation_code = null;
              $user->token = $user->createToken('vManageTax')-> accessToken;
+             $user->name = decrypt($user->name);
 
              return $this->sendResponse($user,
                 'Thank you for registering with UniaAlly. You will get your account activation code in your email');
@@ -66,6 +67,7 @@ class RegistrationController extends BaseController
     // Check authentication status
     public function checkAuth(){
         $user = Auth::user();
+        $user->name = decrypt($user->name);
         return $this->sendResponse($user,
             'Authentication successful');
     }
