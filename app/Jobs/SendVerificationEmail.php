@@ -33,7 +33,6 @@ class SendVerificationEmail implements ShouldQueue
     public function handle()
     {
         $this->user->name = decrypt($this->user->name);
-        $this->user->email = decrypt($this->user->email);
         $this->user->notify(new VerifyCustomerRegistration($this->user));
     }
 }
