@@ -71,3 +71,7 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
     Route::post('register', 'API\User\RegistrationController@store');
     Route::post('social-auth', 'API\User\SocialAuthController@auth');
 });
+Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
+{
+    Route::post('check-auth', 'API\User\RegistrationController@checkAuth');
+});

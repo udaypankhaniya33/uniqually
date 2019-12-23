@@ -8,6 +8,7 @@ use App\Notifications\VerifyCustomerRegistration;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -52,6 +53,7 @@ class RegistrationController extends BaseController
              dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));
 
              $user->activation_code = null;
+             $user->token = $user->createToken('vManageTax')-> accessToken;
 
              return $this->sendResponse($user,
                 'Thank you for registering with UniaAlly. You will get your account activation code in your email');
@@ -59,6 +61,13 @@ class RegistrationController extends BaseController
             return $this->sendError('Something went wrong while sending activation code',
                 ['error' => $ex->getMessage()], 422);
         }
+    }
+
+    // Check authentication status
+    public function checkAuth(){
+        $user = Auth::user();
+        return $this->sendResponse($user,
+            'Authentication successful');
     }
 
 }
