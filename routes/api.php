@@ -74,4 +74,5 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
 {
     Route::post('check-auth', 'API\User\RegistrationController@checkAuth');
+    Route::post('resend-verification', 'API\User\AccountVerificationController@resendVerification');
 });
