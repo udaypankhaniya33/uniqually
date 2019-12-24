@@ -47,7 +47,6 @@ class SocialAuthController extends BaseController
             }
             $createdUser = User::where('email', $user->email)->first();
             $createdUser->token =  $createdUser->createToken('vManageTax')-> accessToken;
-            $createdUser->name = decrypt($createdUser->name);
             if($createdUser->email_verified_at === null){
                 dispatch(new SendVerificationEmail($createdUser))->delay(Carbon::now()->addSeconds(2));
             }

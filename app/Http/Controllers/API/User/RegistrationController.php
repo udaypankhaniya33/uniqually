@@ -48,11 +48,9 @@ class RegistrationController extends BaseController
         try {
              $user = new User($incomingData);
              $user->save();
-             $user->name = decrypt($user->name);
 
              dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));
 
-             $user->activation_code = null;
              $user->token = $user->createToken('vManageTax')-> accessToken;
              $user->name = decrypt($user->name);
 
