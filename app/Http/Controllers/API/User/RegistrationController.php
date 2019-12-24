@@ -40,7 +40,7 @@ class RegistrationController extends BaseController
         $incomingData['email'] = request('email');
         $incomingData['first_name'] = encrypt(request('first_name'));
         $incomingData['last_name'] = encrypt(request('last_name'));
-        $incomingData['activation_code'] = Str::random(32);
+        $incomingData['activation_code'] = Str::random(10);
         $incomingData['is_social_auth'] = false;
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();

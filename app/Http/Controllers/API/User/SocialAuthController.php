@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\API\BaseController;
+use App\Jobs\SendVerificationEmail;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use function GuzzleHttp\Promise\is_settled;
 
@@ -37,6 +39,7 @@ class SocialAuthController extends BaseController
                     'type' =>  config('constances.user_types')['CUSTOMER'],
                     'remember_token' => $user->token,
                     'is_social_auth' =>true,
+                    'activation_code' => Str::random(10),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
@@ -45,6 +48,9 @@ class SocialAuthController extends BaseController
             $createdUser = User::where('email', $user->email)->first();
             $createdUser->token =  $createdUser->createToken('vManageTax')-> accessToken;
             $createdUser->name = decrypt($createdUser->name);
+            if($createdUser->email_verified_at === null){
+                dispatch(new SendVerificationEmail($createdUser))->delay(Carbon::now()->addSeconds(2));
+            }
             return $this->sendResponse($createdUser,
                 'Successfully authenticated!');
 

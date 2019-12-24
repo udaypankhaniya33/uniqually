@@ -44,8 +44,6 @@ class VerifyCustomerRegistration extends Notification
         return (new MailMessage)
                     ->subject('Confirm your email address for uniqally.com')
                     ->line('Thank you for registering with uniqally! Please before you begin, you must confirm your email address.')
-                    ->line('Please use activation code: '.$notifiable->activation_code)
-                    ->line('Or..')
                     ->action('Confirm My Email', url($url))
                     ->line('Thank you for using uniqally!');
     }
