@@ -70,6 +70,7 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
 {
     Route::post('register', 'API\User\RegistrationController@store');
     Route::post('social-auth', 'API\User\SocialAuthController@auth');
+    Route::post('verify-activation-code', 'API\User\AccountVerificationController@verifyCode');
 });
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
 {
