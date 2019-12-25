@@ -65,13 +65,15 @@ Route::group(['prefix' => 'guest', 'middleware' => 'cors'], function()
     Route::post('subscribe', 'API\Guest\SubscribersController@store');
     Route::get('pricing', 'API\Guest\PricingController@index');
 });
-// Customer endpoints/routes
+// Customer endpoints/routes public
 Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
 {
     Route::post('register', 'API\User\RegistrationController@store');
     Route::post('social-auth', 'API\User\SocialAuthController@auth');
     Route::post('verify-activation-code', 'API\User\AccountVerificationController@verifyCode');
+    Route::post('authenticate', 'API\User\AuthenticationController@authenticate');
 });
+// Customer endpoints/routes protected
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
 {
     Route::post('check-auth', 'API\User\AuthenticationController@checkAuth');
