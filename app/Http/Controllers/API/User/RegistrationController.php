@@ -63,12 +63,4 @@ class RegistrationController extends BaseController
         }
     }
 
-    // Check authentication status
-    public function checkAuth(){
-        $user = Auth::user();
-        $user->name = decrypt($user->name);
-        return $this->sendResponse($user,
-            'Authentication successful');
-    }
-
 }
