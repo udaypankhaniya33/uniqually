@@ -78,4 +78,5 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
 {
     Route::post('check-auth', 'API\User\AuthenticationController@checkAuth');
     Route::post('resend-verification', 'API\User\AccountVerificationController@resendVerification');
+    Route::post('resend-two-factor', 'API\User\TwoFactorAuthController@resendTwoFactorAuth');
 });
