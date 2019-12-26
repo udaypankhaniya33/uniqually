@@ -23,34 +23,50 @@ class SocialAuthController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function auth() {
-
-        if(request()->has('token', 'provider')){
-            $user = Socialite::driver(request('provider'))->userFromToken(request('token'));
+        $validator = Validator::make(request()->all(), [
+            'token' => 'required|string|max:255',
+            'provider' => 'required|string|max:100'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+        $user = Socialite::driver(request('provider'))->userFromToken(request('token'));
+        if(isset($user->email) && $user->email!==null){
             if(User::isUserExists($user->email)){
                 User::where('email', $user->email)->update([
-                   'remember_token' => $user->token,
-                   'is_social_auth' =>true,
-                   'updated_at' => Carbon::now()
-                ]);
-                $createdUser = User::where('email', $user->email)->first();
-                $createdUser->token =  $createdUser->createToken('vManageTax')-> accessToken;
-                $createdUser->name = decrypt($createdUser->name);
-                $twoFactorCode = Str::random(6);
-                $loginAttempt = new LoginAttempt([
-                    'user_id' => $createdUser->id,
-                    'authentication_code' => $twoFactorCode,
-                    'is_verified' => false,
-                    'created_at' => Carbon::now(),
+                    'remember_token' => $user->token,
+                    'is_social_auth' =>true,
                     'updated_at' => Carbon::now()
                 ]);
-                $loginAttempt->save();
-                $createdUser->login_verified = false;
-                dispatch(new SendTwoFactorAuthentication($createdUser, $twoFactorCode))->delay(Carbon::now()->addSeconds(2));
-                return $this->sendResponse($createdUser,
-                    'Two factor authentication code has been sent to '.$createdUser->email);
-
-            }else{
-                $newUser = new User([
+                $authorizedUser = User::where('email', $user->email)->first();
+                $token = $authorizedUser->createToken('vManageTax')-> accessToken;
+                $resUser = [
+                    'name' => decrypt($authorizedUser->name),
+                    'email_verified_at' => $authorizedUser->email_verified_at,
+                    'is_social_auth' => $authorizedUser->is_social_auth
+                ];
+                if($authorizedUser->email_verified_at !== null){
+                    $twoFactorCode = Str::random(6);
+                    $loginAttempt = new LoginAttempt([
+                        'user_id' => $authorizedUser->id,
+                        'authentication_code' => $twoFactorCode,
+                        'is_verified' => false,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                    $loginAttempt->save();
+                    dispatch(new SendTwoFactorAuthentication($authorizedUser, $twoFactorCode))->delay(Carbon::now()->addSeconds(2));
+                    $message = 'Two factor authentication code was sent to '.$authorizedUser->email;
+                }else{
+                    $message = 'Your account is still inactive';
+                }
+                return $this->sendResponse([
+                    'user' => $resUser,
+                    'token' => $token
+                ],$message);
+            }
+            else{
+                $initiatedUser = new User([
                     'email' => $user->email,
                     'name' => encrypt($user->name),
                     'type' =>  config('constances.user_types')['CUSTOMER'],
@@ -60,21 +76,25 @@ class SocialAuthController extends BaseController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                $newUser->save();
-                $createdUser = User::where('email', $user->email)->first();
-                $createdUser->token =  $createdUser->createToken('vManageTax')-> accessToken;
-                $createdUser->login_verified = true;
-                $createdUser->name = decrypt($createdUser->name);
-                if($createdUser->email_verified_at === null){
-                    dispatch(new SendVerificationEmail($createdUser))->delay(Carbon::now()->addSeconds(2));
-                }
-                return $this->sendResponse($createdUser,
-                    'Successfully authenticated!');
+                $initiatedUser->save();
+                $token = $initiatedUser->createToken('vManageTax')-> accessToken;
+                dispatch(new SendVerificationEmail($initiatedUser))->delay(Carbon::now()->addSeconds(2));
+                $resUser = [
+                    'name' => decrypt($initiatedUser->name),
+                    'email_verified_at' => $initiatedUser->email_verified_at,
+                    'is_social_auth' => $initiatedUser->is_social_auth
+                ];
+                return $this->sendResponse([
+                    'user' => $resUser,
+                    'token' => $token
+                ], 'An activation email was sent to '.$initiatedUser->email);
             }
         }else{
-            return $this->sendError('Please provide valid data', ['error'=> [
-                'token' => 'Social auth token is required'
-            ]], 422);
+            return $this->sendError('Invalid social media account', [
+                'error'=> [
+                    'email' => 'The social media account you have chosen does not contain an email'
+                ]
+            ], 422);
         }
     }
 
