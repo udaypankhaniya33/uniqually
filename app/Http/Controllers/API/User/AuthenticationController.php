@@ -23,10 +23,13 @@ class AuthenticationController extends BaseController
      */
     public function checkAuth(){
         $user = Auth::user();
+        $loginAttempt = LoginAttempt::where('user_id', $user->id)
+            ->orderBy('id', 'desc')->first();
         $resUser = [
             'name' => decrypt($user->name),
             'email_verified_at' => $user->email_verified_at,
-            'is_social_auth' => $user->is_social_auth
+            'is_social_auth' => $user->is_social_auth,
+            '2fa_verified' => $loginAttempt !== null && $loginAttempt->is_verified ? true : false
         ];
         return $this->sendResponse([
             'user' => $resUser
@@ -55,7 +58,8 @@ class AuthenticationController extends BaseController
                 $resUser = [
                     'name' => decrypt($authorizedUser->name),
                     'email_verified_at' => $authorizedUser->email_verified_at,
-                    'is_social_auth' => $authorizedUser->is_social_auth
+                    'is_social_auth' => $authorizedUser->is_social_auth,
+                    '2fa_verified' => false
                 ];
                 if($authorizedUser->email_verified_at !== null){
                     $twoFactorCode = Str::random(6);
