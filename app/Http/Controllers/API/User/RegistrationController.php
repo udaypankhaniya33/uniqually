@@ -29,11 +29,9 @@ class RegistrationController extends BaseController
             'last_name' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed'
         ]);
-
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
         }
-
         $incomingData['type'] = config('constances.user_types')['CUSTOMER'];
         $incomingData['name'] = encrypt(request('first_name').' '.request('last_name'));
         $incomingData['password'] = Hash::make(request('password'));
@@ -44,19 +42,21 @@ class RegistrationController extends BaseController
         $incomingData['is_social_auth'] = false;
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
-
         try {
              $user = new User($incomingData);
              $user->save();
-
              dispatch(new SendVerificationEmail($user))->delay(Carbon::now()->addSeconds(2));
-
              $user->token = $user->createToken('vManageTax')-> accessToken;
-             $user->name = decrypt($user->name);
-             $user->email_verified_at = null;
-
-             return $this->sendResponse($user,
-                'Thank you for registering with UniaAlly. You will get your account activation code in your email');
+             $resUser = [
+                 'name' => decrypt($user->name),
+                 'email_verified_at' => $user->email_verified_at,
+                 'is_social_auth' => $user->is_social_auth
+             ];
+             return $this->sendResponse([
+                 'user' => $resUser,
+                 'token' => $user->token
+             ],
+                'Account activation code was sent to '.$user->email);
         } catch (\Exception $ex) {
             return $this->sendError('Something went wrong while sending activation code',
                 ['error' => $ex->getMessage()], 422);
