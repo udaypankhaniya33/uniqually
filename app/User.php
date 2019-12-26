@@ -42,4 +42,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $count = User::where('email', $email)->count();
         return $count > 0 ? true : false;
     }
+
+    /**
+     * Check whether user logged through social media
+     * @param string
+     *
+     * @return boolean
+     */
+    public static function isSocialMediaUser($email) {
+       $user = User::where('email', $email)->first();
+       return $user->is_social_auth && $user->password === null ? true : false;
+    }
 }

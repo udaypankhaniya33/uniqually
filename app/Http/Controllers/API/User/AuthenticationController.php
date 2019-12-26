@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class AuthenticationController extends BaseController
@@ -22,8 +23,14 @@ class AuthenticationController extends BaseController
      */
     public function checkAuth(){
         $user = Auth::user();
-        $user->name = decrypt($user->name);
-        return $this->sendResponse($user,
+        $resUser = [
+            'name' => decrypt($user->name),
+            'email_verified_at' => $user->email_verified_at,
+            'is_social_auth' => $user->is_social_auth
+        ];
+        return $this->sendResponse([
+            'user' => $resUser
+        ],
             'Authentication successful');
     }
 
@@ -34,42 +41,47 @@ class AuthenticationController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function authenticate() {
-        if(request()->has('email', 'password')){
-            if(User::isUserExists(request('email'))){
-                $user = User::where('email', request('email'))->first();
-                if($user->password !== null && $user->is_social_auth == false){
-                    if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-                        $user = Auth::user();
-                        $user->token = $user->createToken('vManageTax')-> accessToken;
-                        $user->name = decrypt($user->name);
-                        if($user->email_verified_at === null){
-                            return $this->sendResponse($user, 'Your account is still inactive ');
-                        }else{
-                            $twoFactorCode = Str::random(6);
-                            $loginAttempt = new LoginAttempt([
-                                'user_id' => $user->id,
-                                'authentication_code' => $twoFactorCode,
-                                'is_verified' => false,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                            $loginAttempt->save();
-                            $user->login_verified = false;
-                            dispatch(new SendTwoFactorAuthentication($user, $twoFactorCode))->delay(Carbon::now()->addSeconds(2));
-                            return $this->sendResponse($user, 'Two factor authentication code has been sent to ');
-                        }
-                    }else{
-                        return $this->sendError('Unauthorized', [], 401);
-                    }
+        $validator = Validator::make(request()->all(), [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
+        }
+        if(User::isUserExists(request('email')) && !User::isSocialMediaUser(request('email'))){
+            if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+                $authorizedUser = Auth::user();
+                $token = $authorizedUser->createToken('vManageTax')-> accessToken;
+                $resUser = [
+                    'name' => decrypt($authorizedUser->name),
+                    'email_verified_at' => $authorizedUser->email_verified_at,
+                    'is_social_auth' => $authorizedUser->is_social_auth
+                ];
+                if($authorizedUser->email_verified_at !== null){
+                    $twoFactorCode = Str::random(6);
+                    $loginAttempt = new LoginAttempt([
+                        'user_id' => $authorizedUser->id,
+                        'authentication_code' => $twoFactorCode,
+                        'is_verified' => false,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                    $loginAttempt->save();
+                    dispatch(new SendTwoFactorAuthentication($authorizedUser, $twoFactorCode))->delay(Carbon::now()
+                        ->addSeconds(2));
+                    $message = 'Two factor authentication code was sent to '.$authorizedUser->email;
                 }else{
-                    return $this->sendError('Social media user', [], 422);
+                    $message = 'Your account is still inactive';
                 }
+                return $this->sendResponse([
+                    'user' => $resUser,
+                    'token' => $token
+                ],$message);
+            }else{
+                return $this->sendError('Unauthorized', [], 401);
             }
         }else{
-            return $this->sendError('Please provide valid data', ['error'=> [
-                'email' => 'Email is required',
-                'password' => 'Password is required'
-            ]], 422);
+            return $this->sendError('Unauthorized', [], 401);
         }
     }
 
