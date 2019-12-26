@@ -60,7 +60,8 @@ class TwoFactorAuthController extends BaseController
                     'name' => decrypt($authUser->name),
                     'email_verified_at' => $authUser->email_verified_at,
                     'is_social_auth' => $authUser->is_social_auth,
-                    'two_factor_verified' => true
+                    'two_factor_verified' => true,
+                    'email' => $authUser->email
                 ];
                 $token = $authUser->createToken('vManageTax')-> accessToken;
                 return $this->sendResponse([

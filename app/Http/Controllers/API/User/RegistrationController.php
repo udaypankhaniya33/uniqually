@@ -51,7 +51,8 @@ class RegistrationController extends BaseController
                  'name' => decrypt($user->name),
                  'email_verified_at' => $user->email_verified_at,
                  'is_social_auth' => $user->is_social_auth,
-                 'two_factor_verified' => false
+                 'two_factor_verified' => false,
+                 'email' => $user->email
              ];
              return $this->sendResponse([
                  'user' => $resUser,

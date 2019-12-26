@@ -39,7 +39,19 @@ class AccountVerificationController extends BaseController
                     'email_verified_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                return $this->sendResponse([],
+                $authenticatedUser = User::where('activation_code', request('activation_code'))->first();
+                $token = $authenticatedUser->createToken('vManageTax')-> accessToken;
+                $resUser = [
+                    'name' => decrypt($authenticatedUser->name),
+                    'email_verified_at' => $authenticatedUser->email_verified_at,
+                    'is_social_auth' => $authenticatedUser->is_social_auth,
+                    'two_factor_verified' => $authenticatedUser->two_factor_verified,
+                    'email' => $authenticatedUser->email
+                ];
+                return $this->sendResponse([
+                    'user' => $resUser,
+                    'token' => $token
+                ],
                     'Account has been activated');
             }else{
                 return $this->sendError('Please provide valid data', ['error'=> [
