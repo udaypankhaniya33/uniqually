@@ -44,7 +44,7 @@ class SocialAuthController extends BaseController
                     'name' => decrypt($authorizedUser->name),
                     'email_verified_at' => $authorizedUser->email_verified_at,
                     'is_social_auth' => $authorizedUser->is_social_auth,
-                    '2fa_verified' => false
+                    'two_factor_verified' => false
                 ];
                 if($authorizedUser->email_verified_at !== null){
                     $twoFactorCode = Str::random(6);
@@ -84,7 +84,7 @@ class SocialAuthController extends BaseController
                     'name' => decrypt($initiatedUser->name),
                     'email_verified_at' => $initiatedUser->email_verified_at,
                     'is_social_auth' => $initiatedUser->is_social_auth,
-                    '2fa_verified' => false
+                    'two_factor_verified' => false
                 ];
                 return $this->sendResponse([
                     'user' => $resUser,
