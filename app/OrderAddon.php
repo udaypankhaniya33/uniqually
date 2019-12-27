@@ -18,4 +18,12 @@ class OrderAddon extends Model
         'quantity'
     ];
 
+    /**
+     * Get the order that owns the order addon
+     */
+    public function order()
+    {
+        return $this->belongsTo('App\Order');
+    }
+
 }

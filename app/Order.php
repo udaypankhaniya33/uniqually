@@ -19,4 +19,12 @@ class Order extends Model
         'base_package_id'
     ];
 
+    /**
+     * Get the order addons
+     */
+    public function orderAddons()
+    {
+        return $this->hasMany('App\OrderAddon');
+    }
+
 }
