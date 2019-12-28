@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\API\BaseController;
+use App\Jobs\SendOrderConfirmation;
 use App\Order;
 use App\OrderAddon;
 use App\Package;
 use App\PackageAddon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
@@ -69,7 +71,13 @@ class OrdersController extends BaseController
             Order::where('id', $createdOrder->id)->update([
                'net_value' => $orderValue
             ]);
-            //todo::Send the confirmation message to creator email and a copy to Admin
+            dispatch(new SendOrderConfirmation(
+                $createdOrder->id,
+                Carbon::now(),
+                $orderSummery,
+                $currentUser->email,
+                $orderValue
+            ));
             return $this->sendResponse([
                 'summery' => $orderSummery,
                 'total_cost' => $orderValue,
