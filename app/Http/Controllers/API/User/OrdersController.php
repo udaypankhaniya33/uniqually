@@ -27,8 +27,11 @@ class OrdersController extends BaseController
         //$location = Location::get(request()->ip());
         $orderSummery = [];
         $orderValue = 0;
+        $quantity = 0;
+        $itemEach = 0;
         if(request()->has('base_package_id')){
             $selectedPackage = Package::with('packageCategory')->find(request('base_package_id'));
+            $itemEach =  $selectedPackage->discounted_price;
             if(request()->has(['is_annual', 'expense']) && $selectedPackage->packageCategory->title === 'Bookkeeping'){
                 $discount = (float)$selectedPackage->discounted_price * 20 / 100;
                 $selectedPackage->discounted_price = request('is_annual') === 'true' ?
@@ -54,6 +57,12 @@ class OrdersController extends BaseController
                             (float)$selectedPackage->discounted_price + (30*4) :
                             (float)$selectedPackage->discounted_price + (38 + 37 + 38 + 37);
                 }
+                if(request('is_annual') === 'true'){
+                    $selectedPackage->discounted_price = (float)$selectedPackage->discounted_price * 12;
+                    $currentYear = Carbon::now()->year;
+                    $selectedPackage->title = $selectedPackage->title.' ( For '.$currentYear.' )';
+                    $quantity = 12;
+                }
             }
             $orderValue = $orderValue + (float)$selectedPackage->discounted_price;
             $createdOrder = new Order([
@@ -65,9 +74,9 @@ class OrdersController extends BaseController
             $createdOrder->save();
             array_push($orderSummery, [
                 'item' =>  $selectedPackage->packageCategory->title.' - '.$selectedPackage->title,
-                'quantity' => 1,
-                'costPerItem' =>  (float)$selectedPackage->discounted_price,
-                'totalCost' => (float)$selectedPackage->discounted_price
+                'quantity' => $quantity,
+                'costPerItem' =>  (float)$itemEach,
+                'totalCost' => number_format((float)$selectedPackage->discounted_price, 2, '.', '')
             ]);
             if(request()->has('package_addons')){
                 $selectedPackageAddonsWithQty = explode(',', request('package_addons'));
@@ -89,7 +98,7 @@ class OrdersController extends BaseController
                             'item' =>  $selectedAddon->title,
                             'quantity' => (int)$selectedAddonQuantity,
                             'costPerItem' =>  (float)$selectedAddon->discounted_price,
-                            'totalCost' => $cost
+                            'totalCost' => number_format((float)$cost, 2, '.', '')
                         ]);
                     }
                 }
@@ -106,7 +115,7 @@ class OrdersController extends BaseController
             ));
             return $this->sendResponse([
                 'summery' => $orderSummery,
-                'total_cost' => $orderValue,
+                'total_cost' => number_format((float)$orderValue, 2, '.', ''),
                 'order_id' => $createdOrder->id
             ], 'Order has been submitted successfully!');
 
