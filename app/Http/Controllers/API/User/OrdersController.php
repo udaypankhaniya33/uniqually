@@ -24,11 +24,37 @@ class OrdersController extends BaseController
      */
     public function store() {
         $currentUser = Auth::user();
-        $location = Location::get(request()->ip());
+        //$location = Location::get(request()->ip());
         $orderSummery = [];
         $orderValue = 0;
         if(request()->has('base_package_id')){
             $selectedPackage = Package::with('packageCategory')->find(request('base_package_id'));
+            if(request()->has(['is_annual', 'expense']) && $selectedPackage->packageCategory->title === 'Bookkeeping'){
+                $discount = (float)$selectedPackage->discounted_price * 20 / 100;
+                $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                    (float)$selectedPackage->discounted_price - $discount : $selectedPackage->discounted_price;
+                switch (request('expense')){
+                    case 20000:
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                            (float)$selectedPackage->discounted_price + 30 :
+                            (float)$selectedPackage->discounted_price + 38;
+                        break;
+                    case 30000:
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                            (float)$selectedPackage->discounted_price + (30*2) :
+                            (float)$selectedPackage->discounted_price + (38 + 37);
+                        break;
+                    case 40000:
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                            (float)$selectedPackage->discounted_price + (30*3) :
+                            (float)$selectedPackage->discounted_price + (38 + 37 + 38);
+                        break;
+                    case 50000:
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                            (float)$selectedPackage->discounted_price + (30*4) :
+                            (float)$selectedPackage->discounted_price + (38 + 37 + 38 + 37);
+                }
+            }
             $orderValue = $orderValue + (float)$selectedPackage->discounted_price;
             $createdOrder = new Order([
                 'order_created_by' => $currentUser->id,
