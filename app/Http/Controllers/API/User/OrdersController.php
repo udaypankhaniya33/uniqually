@@ -62,7 +62,7 @@ class OrdersController extends BaseController
                 if(request('is_annual') === 'true'){
                     $selectedPackage->discounted_price = (float)$selectedPackage->discounted_price * 12;
                     $currentYear = Carbon::now()->year;
-                    $selectedPackage->title = $selectedPackage->title.' ( For '.$currentYear.' )';
+                    $selectedPackage->title = $selectedPackage->title.' ( '.$currentYear.' )';
                     $quantity = 12;
                 }
             }
@@ -75,7 +75,7 @@ class OrdersController extends BaseController
             ]);
             $createdOrder->save();
             array_push($orderSummery, [
-                'item' =>  $selectedPackage->packageCategory->title.' - '.$selectedPackage->title,
+                'item' =>  $selectedPackage->title,
                 'quantity' => $quantity,
                 'costPerItem' =>  (float)$itemEach,
                 'totalCost' => number_format((float)$selectedPackage->discounted_price, 2, '.', '')
