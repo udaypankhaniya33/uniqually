@@ -68,7 +68,7 @@ class OrdersController extends BaseController
             }
             $orderValue = $orderValue + (float)$selectedPackage->discounted_price;
             $createdOrder = new Order([
-                'custom_ind' => uniqid(),
+                'custom_ind' => strtoupper(uniqid()),
                 'order_created_by' => $currentUser->id,
                 'order_creator_location'=> null,
                 'net_value' => $orderValue,
