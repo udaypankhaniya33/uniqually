@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\API\BaseController;
+use App\Jobs\SendOnboardingEmail;
 use App\Jobs\SendOrderConfirmation;
 use App\Order;
 use App\OrderAddon;
@@ -92,7 +93,7 @@ class OrdersController extends BaseController
                         $cost = (float)$selectedAddon->discounted_price * $selectedAddonQuantity;
                         $orderValue = $orderValue + $cost;
                         $orderAddonCreated = new OrderAddon([
-                            'order_id' => $createdOrder->custom_ind,
+                            'order_id' => $createdOrder->id,
                             'package_addon_id' => $selectedAddon->id,
                             'quantity' => $selectedAddonQuantity
                         ]);
@@ -116,6 +117,7 @@ class OrdersController extends BaseController
                 $currentUser->email,
                 $orderValue
             ));
+            dispatch(new SendOnboardingEmail($currentUser));
             return $this->sendResponse([
                 'summery' => $orderSummery,
                 'total_cost' => number_format((float)$orderValue, 2, '.', ''),
