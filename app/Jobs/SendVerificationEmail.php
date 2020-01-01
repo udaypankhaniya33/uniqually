@@ -2,18 +2,21 @@
 
 namespace App\Jobs;
 
+use App\Mail\VerificationMailable;
 use App\Notifications\VerifyCustomerRegistration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class SendVerificationEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $user;
+    private $activationCode;
 
     /**
      * Create a new job instance.
@@ -23,6 +26,7 @@ class SendVerificationEmail implements ShouldQueue
     public function __construct($user)
     {
         $this->user = $user;
+        $this->activationCode = $user->activation_code;
     }
 
     /**
@@ -32,7 +36,7 @@ class SendVerificationEmail implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->name = decrypt($this->user->name);
-        $this->user->notify(new VerifyCustomerRegistration($this->user));
+        $mailable = new VerificationMailable($this->activationCode, $this->user->email);
+        Mail::to($this->user->email)->send($mailable);
     }
 }
