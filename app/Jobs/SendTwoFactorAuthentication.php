@@ -2,12 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Mail\TwoFactorCodeMailable;
 use App\Notifications\TwoFactorAuthenticationForLogin;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class SendTwoFactorAuthentication implements ShouldQueue
 {
@@ -34,7 +36,7 @@ class SendTwoFactorAuthentication implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->name = decrypt($this->user->name);
-        $this->user->notify(new TwoFactorAuthenticationForLogin($this->user, $this->code));
+        $mailable = new TwoFactorCodeMailable($this->code);
+        Mail::to($this->user->email)->send($mailable);
     }
 }
