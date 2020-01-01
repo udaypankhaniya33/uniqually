@@ -27,7 +27,7 @@ class OrdersController extends BaseController
         //$location = Location::get(request()->ip());
         $orderSummery = [];
         $orderValue = 0;
-        $quantity = 0;
+        $quantity = 1;
         $itemEach = 0;
         if(request()->has('base_package_id')){
             $selectedPackage = Package::with('packageCategory')->find(request('base_package_id'));
@@ -68,6 +68,7 @@ class OrdersController extends BaseController
             }
             $orderValue = $orderValue + (float)$selectedPackage->discounted_price;
             $createdOrder = new Order([
+                'custom_ind' => uniqid(),
                 'order_created_by' => $currentUser->id,
                 'order_creator_location'=> null,
                 'net_value' => $orderValue,
@@ -91,7 +92,7 @@ class OrdersController extends BaseController
                         $cost = (float)$selectedAddon->discounted_price * $selectedAddonQuantity;
                         $orderValue = $orderValue + $cost;
                         $orderAddonCreated = new OrderAddon([
-                            'order_id' => $createdOrder->id,
+                            'order_id' => $createdOrder->custom_ind,
                             'package_addon_id' => $selectedAddon->id,
                             'quantity' => $selectedAddonQuantity
                         ]);
@@ -109,7 +110,7 @@ class OrdersController extends BaseController
                'net_value' => $orderValue
             ]);
             dispatch(new SendOrderConfirmation(
-                $createdOrder->id,
+                $createdOrder->custom_ind,
                 Carbon::now(),
                 $orderSummery,
                 $currentUser->email,
@@ -118,7 +119,7 @@ class OrdersController extends BaseController
             return $this->sendResponse([
                 'summery' => $orderSummery,
                 'total_cost' => number_format((float)$orderValue, 2, '.', ''),
-                'order_id' => $createdOrder->id
+                'order_id' => $createdOrder->custom_ind
             ], 'Order has been submitted successfully!');
 
         }else{
