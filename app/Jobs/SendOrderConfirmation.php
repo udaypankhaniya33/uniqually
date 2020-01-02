@@ -42,6 +42,6 @@ class SendOrderConfirmation implements ShouldQueue
     public function handle()
     {
         $mailable = new OrderConfirmationMailable($this->orderId, $this->orderDate, $this->orderItems, $this->netValue);
-        Mail::to($this->sendTo)->send($mailable);
+        Mail::to($this->sendTo)->cc('support@uniqally.com')->send($mailable);
     }
 }

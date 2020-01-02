@@ -13,16 +13,18 @@ class VerificationMailable extends Mailable
 
     public $activationCode;
     public $email;
+    public $name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($activationCode, $email)
+    public function __construct($activationCode, $email, $name)
     {
         $this->activationCode = $activationCode;
         $this->email = $email;
+        $this->name = $name;
     }
 
     /**
