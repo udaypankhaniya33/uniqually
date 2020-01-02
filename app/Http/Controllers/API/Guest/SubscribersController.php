@@ -37,14 +37,14 @@ class SubscribersController extends BaseController
         $incomingData['user_agent'] = request()->header('user-agent') ? request()->header('user-agent') : null ;
         try {
             $createdSubscriber = Subscriber::create($incomingData);
-            $randomCoupon = CouponCode::all()->where('is_enabled', '1')->random(1);
-            dispatch(new SendCouponCodeEmail($incomingData['email'],$randomCoupon[0]->name,  $randomCoupon[0]->discount,
-                $createdSubscriber->id))
-                ->delay(Carbon::now()->addSeconds(2));
-            $createdSubscriber->coupon_code_id = $randomCoupon[0]->id;
-            $createdSubscriber->save();
+            //$randomCoupon = CouponCode::all()->where('is_enabled', '1')->random(1);
+//            dispatch(new SendCouponCodeEmail($incomingData['email'],$randomCoupon[0]->name,  $randomCoupon[0]->discount,
+//                $createdSubscriber->id))
+//                ->delay(Carbon::now()->addSeconds(2));
+            //$createdSubscriber->coupon_code_id = $randomCoupon[0]->id;
+            //$createdSubscriber->save();
             return $this->sendResponse([],
-                'Thanks for completing the survey. You will receive discount code through email');
+                'You have been successfully subscribed to our service');
         } catch (\Exception $ex) {
             return $this->sendError('Something went wrong while uploading',
                 ['error' => $ex->getMessage()], 422);
