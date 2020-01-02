@@ -35,24 +35,31 @@ class AccountVerificationController extends BaseController
         if(request()->has('activation_code')){
             $foundCount = User::where('activation_code', request('activation_code'))->count();
             if($foundCount > 0){
-                User::where('activation_code', request('activation_code'))->update([
-                    'email_verified_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
                 $authenticatedUser = User::where('activation_code', request('activation_code'))->first();
-                $token = $authenticatedUser->createToken('vManageTax')-> accessToken;
-                $resUser = [
-                    'name' => decrypt($authenticatedUser->name),
-                    'email_verified_at' => $authenticatedUser->email_verified_at,
-                    'is_social_auth' => $authenticatedUser->is_social_auth,
-                    'two_factor_verified' => $authenticatedUser->two_factor_verified,
-                    'email' => $authenticatedUser->email
-                ];
-                return $this->sendResponse([
-                    'user' => $resUser,
-                    'token' => $token
-                ],
-                    'Account has been activated');
+                if($authenticatedUser->email_verified_at === null){
+                    User::where('activation_code', request('activation_code'))->update([
+                        'email_verified_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                    $authenticatedUser = User::where('activation_code', request('activation_code'))->first();
+                    $token = $authenticatedUser->createToken('vManageTax')-> accessToken;
+                    $resUser = [
+                        'name' => decrypt($authenticatedUser->name),
+                        'email_verified_at' => $authenticatedUser->email_verified_at,
+                        'is_social_auth' => $authenticatedUser->is_social_auth,
+                        'two_factor_verified' => $authenticatedUser->two_factor_verified,
+                        'email' => $authenticatedUser->email
+                    ];
+                    return $this->sendResponse([
+                        'user' => $resUser,
+                        'token' => $token
+                    ],
+                        'Account has been activated');
+                }else{
+                    return $this->sendError('Already activated', ['error'=> [
+                        'token' => 'Activation code has been expired'
+                    ]], 422);
+                }
             }else{
                 return $this->sendError('Please provide valid data', ['error'=> [
                     'token' => 'Activation code is invalid'
