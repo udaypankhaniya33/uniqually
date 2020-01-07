@@ -72,6 +72,7 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
     Route::post('social-auth', 'API\User\SocialAuthController@auth');
     Route::post('verify-activation-code', 'API\User\AccountVerificationController@verifyCode');
     Route::post('authenticate', 'API\User\AuthenticationController@authenticate');
+    Route::post('reset-password-request', 'API\User\PasswordResetController@sendResetPasswordLink');
 });
 // Customer endpoints/routes protected
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
