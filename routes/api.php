@@ -82,4 +82,5 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
     Route::post('resend-two-factor', 'API\User\TwoFactorAuthController@resendTwoFactorAuth');
     Route::post('verify-two-factor', 'API\User\TwoFactorAuthController@verifyTwoFactorCode');
     Route::post('submit-order', 'API\User\OrdersController@store');
+    Route::post('reset-password-with-link', 'API\User\PasswordResetController@verifyPassword');
 });
