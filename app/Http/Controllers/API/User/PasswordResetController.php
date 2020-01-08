@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\API\BaseController;
+use App\Jobs\SendPasswordChangeConfirmation;
 use App\Jobs\SendPasswordResetLink;
 use App\User;
 use Carbon\Carbon;
@@ -80,6 +81,8 @@ class PasswordResetController extends BaseController
             $resUser->name = decrypt($resUser->name);
             $token = $resUser->createToken('vManageTax')-> accessToken;
             DB::table('password_resets')->where('token', request('reset_token'))->delete();
+            $ip = request()->ip();
+            dispatch(new SendPasswordChangeConfirmation($resUser, $ip))->delay(Carbon::now()->addSeconds(2));
             return $this->sendResponse([
                 'user' => $resUser,
                 'token' => $token
