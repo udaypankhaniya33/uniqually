@@ -28,7 +28,7 @@ class PasswordResetController extends BaseController
                 $user = User::where('email', request('email'))->first();
                 if($user->is_social_auth){
                     return $this->sendError('Social authenticated user', ['error'=> [
-                        'email' => 'This email address is associated with a unqally account using third-party login. Please login using Google or Facebook'
+                        'email' => 'This email address is associated with a uniqally account using a third-party login. Please login using Google or Facebook'
                     ]], 422);
                 }
                 $resetToken = Str::random(15);
