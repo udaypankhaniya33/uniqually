@@ -73,6 +73,7 @@ Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
     Route::post('verify-activation-code', 'API\User\AccountVerificationController@verifyCode');
     Route::post('authenticate', 'API\User\AuthenticationController@authenticate');
     Route::post('reset-password-request', 'API\User\PasswordResetController@sendResetPasswordLink');
+    Route::post('reset-password-with-link', 'API\User\PasswordResetController@verifyPassword');
 });
 // Customer endpoints/routes protected
 Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
@@ -82,5 +83,4 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
     Route::post('resend-two-factor', 'API\User\TwoFactorAuthController@resendTwoFactorAuth');
     Route::post('verify-two-factor', 'API\User\TwoFactorAuthController@verifyTwoFactorCode');
     Route::post('submit-order', 'API\User\OrdersController@store');
-    Route::post('reset-password-with-link', 'API\User\PasswordResetController@verifyPassword');
 });
