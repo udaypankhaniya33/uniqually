@@ -204,7 +204,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 5px; padding-bottom: 30px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#555555;font-family:Cabin, Arial, Helvetica Neue, Helvetica, sans-serif;line-height:1.5;padding-top:5px;padding-right:10px;padding-bottom:30px;padding-left:10px;">
                                         <div style="font-size: 12px; line-height: 1.5; color: #555555; font-family: Cabin, Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 18px;">
-                                            <p style="font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Below is the Verification Code you need to copy and paste to sign in to your Uniqally Account. This code expires in 2 hours.<br/>{{$twoFactorCode}}<br/>Need help signing in? See our FAQs.</p>
+                                            <p style="font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin: 0;">Below is the Verification Code you need to copy and paste to sign in to your Uniqally Account. This code expires in 2 hours.<br/><b>{{$twoFactorCode}}</b><br/>Need help signing in? See our FAQs.</p>
                                             <p style="line-height: 1.5; word-break: break-word; mso-line-height-alt: NaNpx; margin: 0;"> </p>
                                         </div>
                                     </div>
