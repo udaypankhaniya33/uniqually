@@ -15,15 +15,17 @@ class SendOnboardingEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $user;
+    private $title;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $title)
     {
         $this->user = $user;
+        $this->title = $title;
     }
 
     /**
@@ -33,7 +35,7 @@ class SendOnboardingEmail implements ShouldQueue
      */
     public function handle()
     {
-        $mailable = new OnboardingMailable(decrypt($this->user->name));
+        $mailable = new OnboardingMailable(decrypt($this->user->name), $this->title);
         Mail::to($this->user->email)->send($mailable);
     }
 }

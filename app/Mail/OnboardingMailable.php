@@ -12,15 +12,17 @@ class OnboardingMailable extends Mailable
     use Queueable, SerializesModels;
 
     public $username;
+    public $title;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct($username, $title)
     {
         $this->username = $username;
+        $this->title = $title;
     }
 
     /**
@@ -30,6 +32,11 @@ class OnboardingMailable extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your Uniqally On-boarding experience begins now!')->view('emails.onboarding');
+        if($this->title === 'Bookkeeping'){
+            return $this->subject('Your Uniqally On-boarding experience begins now!')->view('emails.onboarding_bk');
+        }else{
+            return $this->subject('Your Uniqally On-boarding experience begins now!')->view('emails.onboarding');
+        }
+
     }
 }

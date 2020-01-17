@@ -117,7 +117,7 @@ class OrdersController extends BaseController
                 $currentUser->email,
                 $orderValue
             ));
-            dispatch(new SendOnboardingEmail($currentUser));
+            dispatch(new SendOnboardingEmail($currentUser, $selectedPackage->packageCategory->title));
             return $this->sendResponse([
                 'summery' => $orderSummery,
                 'total_cost' => number_format((float)$orderValue, 2, '.', ''),
