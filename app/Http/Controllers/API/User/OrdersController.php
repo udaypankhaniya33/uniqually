@@ -35,7 +35,7 @@ class OrdersController extends BaseController
             $itemEach =  $selectedPackage->discounted_price;
             if(request()->has(['is_annual', 'expense']) && $selectedPackage->packageCategory->title === 'Bookkeeping'){
                 $discount = (float)$selectedPackage->discounted_price * 20 / 100;
-                $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                $selectedPackage->discounted_price = request('is_annual') === 'true' || request('is_annual') === true ?
                     (float)$selectedPackage->discounted_price - $discount : $selectedPackage->discounted_price;
                 $selectedPackage->discounted_price = round($selectedPackage->discounted_price);
                 switch (request('expense')){
