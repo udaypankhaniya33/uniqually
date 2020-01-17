@@ -9,6 +9,8 @@ use App\Order;
 use App\OrderAddon;
 use App\Package;
 use App\PackageAddon;
+use App\PayPalFailedResponse;
+use App\PayPalSuccessResponse;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,10 +20,11 @@ use PayPalCheckoutSdk\Payments\AuthorizationsCaptureRequest;
 use Stevebauman\Location\Facades\Location;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
-use PayPalCheckoutSdk\Core\PayPalEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Orders\OrdersAuthorizeRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
+use PayPalHttp\HttpException;
 
 class OrdersController extends BaseController
 {
@@ -42,7 +45,10 @@ class OrdersController extends BaseController
                $payPalConfig['sandbox_secret']
            ));
        }else{
-           // todo::set live configurations
+           $this->payPalClient = new PayPalHttpClient( new ProductionEnvironment(
+               $payPalConfig['live_client_id'],
+               $payPalConfig['live_secret']
+           ));
        }
     }
 
@@ -61,8 +67,10 @@ class OrdersController extends BaseController
         $itemEach = 0;
         if(request()->has('base_package_id', 'paypal_order_id', 'paypal_payer_id', 'paypal_auth_token')) {
             $authorizeOrderRequest = new OrdersAuthorizeRequest(request('paypal_order_id'));
-            $authorizeOrderRequest->headers["prefer"] = "return=representation";
-            $authorizeOrderRequest->headers["PayPal-Partner-Attribution-Id"] = request('paypal_auth_token');
+            $authorizeOrderRequest->body = $this->buildRequestBody();
+//            $authorizeOrderRequest->headers['PayPal-Mock-Response'] = json_encode([
+//                'mock_application_codes' => 'AUTHENTICATION_FAILURE'
+//            ]);
             try {
                 $orderAuthorizationDetails = $this->payPalClient->execute($authorizeOrderRequest);
                 if ($orderAuthorizationDetails->statusCode === 201) {
@@ -151,6 +159,11 @@ class OrdersController extends BaseController
                             Order::where('id', $createdOrder->id)->update([
                                 'net_value' => $orderValue
                             ]);
+                            $payPalSuccessRes = new PayPalSuccessResponse([
+                                'response'  => json_encode( $orderCaptureRequestDetails ),
+                                'order_id' =>  $createdOrder->id
+                            ]);
+                            $payPalSuccessRes->save();
                             dispatch(new SendOrderConfirmation(
                                 $createdOrder->custom_ind,
                                 Carbon::now(),
@@ -166,15 +179,25 @@ class OrdersController extends BaseController
                             ], 'Order has been submitted successfully!');
 
                         }
-                    } catch (Exception $exception) {
+                    } catch (HttpException $exception) {
+                        $payPalFailedRes = new PayPalFailedResponse([
+                            'response'  => json_encode( $exception ),
+                            'order_id' => null
+                        ]);
+                        $payPalFailedRes->save();
                         return $this->sendError('Please provide valid data', [
                             'error' => [
-                                'paypal_order_id' => $exception
+                                'paypal_order_id' => 'An error occurred while capturing'
                             ]
                         ], 422);
                     }
                 }
-            }catch (Exception $exception) {
+            }catch (HttpException $exception) {
+                $payPalFailedRes = new PayPalFailedResponse([
+                    'response'  => json_encode( $exception ),
+                    'order_id' => null
+                ]);
+                $payPalFailedRes->save();
                 return $this->sendError('Please provide valid data', [
                     'error' => [
                         'paypal_order_id' => 'An error occurred while authorization'
