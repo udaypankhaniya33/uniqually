@@ -40,27 +40,27 @@ class OrdersController extends BaseController
                 $selectedPackage->discounted_price = round($selectedPackage->discounted_price);
                 switch (request('expense')){
                     case 20000:
-                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' || request('is_annual') === true ?
                             (float)$selectedPackage->discounted_price + 40 :
                             (float)$selectedPackage->discounted_price + 50;
                         break;
                     case 30000:
-                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' || request('is_annual') === true ?
                             (float)$selectedPackage->discounted_price + (40*2) :
                             (float)$selectedPackage->discounted_price + (50*2);
                         break;
                     case 40000:
-                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' || request('is_annual') === true ?
                             (float)$selectedPackage->discounted_price + (40*3) :
                             (float)$selectedPackage->discounted_price + (50*3);
                         break;
                     case 50000:
-                        $selectedPackage->discounted_price = request('is_annual') === 'true' ?
+                        $selectedPackage->discounted_price = request('is_annual') === 'true' || request('is_annual') === true ?
                             (float)$selectedPackage->discounted_price + (40*4) :
                             (float)$selectedPackage->discounted_price + (50*4);
                 }
                 $itemEach = (float)$selectedPackage->discounted_price;
-                if(request('is_annual') === 'true'){
+                if(request('is_annual') === 'true' || request('is_annual') === true){
                     $selectedPackage->discounted_price = (float)$selectedPackage->discounted_price * 12;
                     $currentYear = Carbon::now()->year;
                     $selectedPackage->title = $selectedPackage->title.' ( '.$currentYear.' )';
@@ -80,7 +80,7 @@ class OrdersController extends BaseController
                 'item' =>  $selectedPackage->title,
                 'quantity' => $quantity,
                 'costPerItem' =>  (float)$itemEach,
-                'totalCost' => number_format((float)$selectedPackage->discounted_price, 2, '.', '')
+                'totalCost' => number_format((float)$orderValue, 2, '.', '')
             ]);
             if(request()->has('package_addons') && request('package_addons') !== null){
                 $selectedPackageAddonsWithQty = explode(',', request('package_addons'));
