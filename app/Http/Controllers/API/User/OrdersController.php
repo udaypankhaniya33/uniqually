@@ -14,6 +14,7 @@ use App\PayPalSuccessResponse;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use HttpException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -167,16 +168,16 @@ class OrdersController extends BaseController
                         'order_id' => $createdOrder->custom_ind
                     ], 'Order has been submitted successfully!');
                 }else{
-                    return $this->sendError('PayPal order capturing failed', [
+                    return $this->sendError($this->payPalError->details[0]->issue, [
                         'error' => [
-                            'desc' => $this->payPalError
+                            'desc' => $this->payPalError->details[0]->description
                         ]
                     ], 422);
                 }
             }else{
-                return $this->sendError('PayPal order authorization failed', [
+                return $this->sendError($this->payPalError->details[0]->issue, [
                     'error' => [
-                        'desc' => $this->payPalError
+                        'desc' => $this->payPalError->details[0]->description
                     ]
                 ], 422);
             }
@@ -199,7 +200,10 @@ class OrdersController extends BaseController
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Authorization' => $this->payPalAuthToken
+                        'Authorization' => $this->payPalAuthToken,
+//                        'PayPal-Mock-Response' => json_encode([
+//                            'mock_application_codes' => 'AGREEMENT_ALREADY_CANCELLED'
+//                        ])
                     ]
                 ]);
             $response = $authorizeRequest->getBody()->getContents();
@@ -207,8 +211,8 @@ class OrdersController extends BaseController
             $this->payPalSuccess = $response;
             return true;
 
-        }catch (GuzzleException $exception){
-            $errorMsg = $exception->getMessage();
+        }catch (\GuzzleHttp\Exception\ClientException $exception){
+            $errorMsg = $exception->getResponse()->getBody()->getContents();
             $this->payPalError = $this->getPayPalError($errorMsg);
             return false;
         }
@@ -220,7 +224,8 @@ class OrdersController extends BaseController
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Authorization' => $this->payPalAuthToken
+                        'Authorization' => $this->payPalAuthToken,
+
                     ]
                 ]);
             $response = $captureRequest->getBody()->getContents();
@@ -228,21 +233,15 @@ class OrdersController extends BaseController
             $this->payPalSuccess = $response;
             return true;
 
-        }catch (GuzzleException $exception){
-            $errorMsg = $exception->getMessage();
+        }catch (\GuzzleHttp\Exception\ClientException $exception){
+            $errorMsg = $exception->getResponse()->getBody()->getContents();
             $this->payPalError = $this->getPayPalError($errorMsg);
             return false;
         }
     }
 
     private function getPayPalError($errorMsg){
-        $errorMsg = explode("\n", $errorMsg);
-        $errorMsg = explode(",", $errorMsg[1]);
-        $errorMsg = str_replace('"details":[{"issue":', '', $errorMsg[1]);
-        $errorMsg = str_replace('"', '', $errorMsg);
-        $errorMsg = str_replace('_', ' ', $errorMsg);
-        $errorMsg = strtolower($errorMsg);
-        $errorMsg = ucfirst($errorMsg);
+        $errorMsg = \GuzzleHttp\json_decode($errorMsg);
         return $errorMsg;
     }
 
