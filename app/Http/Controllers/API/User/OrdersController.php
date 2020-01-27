@@ -36,11 +36,18 @@ class OrdersController extends BaseController
     public function __construct()
     {
         $payPalConfig = Config::get('paypal');
+        if($payPalConfig['settings']['mode'] === 'sandbox'){
+            $clientId = $payPalConfig['sandbox_client_id'];
+            $clientSecret = $payPalConfig['sandbox_secret'];
+        }else{
+            $clientId = $payPalConfig['live_client_id'];
+            $clientSecret = $payPalConfig['live_secret'];
+        }
        try{
            $this->httpClient = new \GuzzleHttp\Client();
            $authRequest = $this->httpClient->post( $this->payPalBaseUrl.'v1/oauth2/token',
                [
-                   'auth' => [$payPalConfig['sandbox_client_id'], $payPalConfig['sandbox_secret']],
+                   'auth' => [$clientId, $clientSecret],
                    'form_params' => ['grant_type' => 'client_credentials'],
                    'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
                ]);
