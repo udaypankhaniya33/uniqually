@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::put('question-answers/{id}', 'API\Admin\QuestionAnswersController@update');
         Route::delete('question-answers/{id}', 'API\Admin\QuestionAnswersController@delete');
         //Orders
-
+        Route::get('orders', 'API\Admin\OrdersController@index');
     });
 });
 // Guest endpoints/routes
@@ -66,7 +66,6 @@ Route::group(['prefix' => 'guest', 'middleware' => 'cors'], function()
 {
     Route::post('subscribe', 'API\Guest\SubscribersController@store');
     Route::get('pricing', 'API\Guest\PricingController@index');
-    Route::get('orders', 'API\Admin\OrdersController@index');
 });
 // Customer endpoints/routes public
 Route::group(['prefix' => 'customer', 'middleware' => 'cors'], function()
