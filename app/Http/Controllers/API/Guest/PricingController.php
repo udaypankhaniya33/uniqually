@@ -21,6 +21,7 @@ class PricingController extends BaseController
 
         $packageCategories = PackageCategory::with('questionAnswers')->get();
         $activeCategory = $packageCategories[0];
+        $isSCorp = request()->has('isSCorp') ? request('isSCorp') : (int)1;
 
         if(request()->has('catId')){
             $activeCategory = PackageCategory::with('questionAnswers')->find((int)request('catId'));
@@ -28,8 +29,13 @@ class PricingController extends BaseController
         }
 
         $packagesOfActiveCat = Package::where('package_category_id', $activeCategory->id)
-            ->with('attributes')
-            ->get();
+            ->with('attributes');
+
+        if($activeCategory->title === 'Business Tax Return'){
+            $packagesOfActiveCat = $packagesOfActiveCat->where('is_s_corp', $isSCorp);
+        }
+
+        $packagesOfActiveCat = $packagesOfActiveCat->get();
 
         foreach ($packagesOfActiveCat as $index => $package) {
             $packageAddons = PackageAddonAssociation::where('package_id', $package->id)
