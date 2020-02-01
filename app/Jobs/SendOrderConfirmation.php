@@ -19,19 +19,21 @@ class SendOrderConfirmation implements ShouldQueue
     private $orderItems;
     private $sendTo;
     private $netValue;
+    private $name;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($orderId, $orderDate, $orderItems, $sendTo, $netValue)
+    public function __construct($orderId, $orderDate, $orderItems, $sendTo, $netValue, $name)
     {
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
         $this->orderItems = $orderItems;
         $this->sendTo = $sendTo;
         $this->netValue = $netValue;
+        $this->name = decrypt($name);
     }
 
     /**
@@ -41,7 +43,7 @@ class SendOrderConfirmation implements ShouldQueue
      */
     public function handle()
     {
-        $mailable = new OrderConfirmationMailable($this->orderId, $this->orderDate, $this->orderItems, $this->netValue);
+        $mailable = new OrderConfirmationMailable($this->orderId, $this->orderDate, $this->orderItems, $this->netValue, $this->name);
         Mail::to($this->sendTo)->cc(env('ADMIN_EMAIL'))->send($mailable);
     }
 }
