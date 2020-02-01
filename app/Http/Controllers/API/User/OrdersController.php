@@ -24,7 +24,7 @@ class OrdersController extends BaseController
 
     private $payPalAuthToken ;
     private $httpClient;
-    private $payPalBaseUrl = 'https://api.sandbox.paypal.com/';
+    private $payPalBaseUrl = 'https://api.paypal.com/';
     private $payPalError;
     private $payPalSuccess;
 
