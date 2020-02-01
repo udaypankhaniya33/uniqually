@@ -246,6 +246,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 25px; font-family: Tahoma, Verdana, sans-serif"><![endif]-->
                                     <div style="color:#71777D;font-family:Lato, Tahoma, Verdana, Segoe, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:25px;padding-left:10px;">
                                         <div style="font-size: 12px; line-height: 1.2; font-family: Lato, Tahoma, Verdana, Segoe, sans-serif; color: #71777D; mso-line-height-alt: 14px;">
+                                            <p style="text-align: left; line-height: 1.2; font-size: 14px; word-break: break-word; font-family: 'Lato',Tahoma,Verdana,Segoe,sans-serif; mso-line-height-alt: 17px; margin: 0;">{{'Dear '.$name}}</p>
                                             <p style="font-size: 14px; line-height: 1.2; text-align: center; word-break: break-word; font-family: Lato, Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 17px; margin: 0;">This email is to confirm your recent order.</p>
                                         </div>
                                     </div>

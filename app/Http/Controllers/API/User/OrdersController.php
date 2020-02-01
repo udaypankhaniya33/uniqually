@@ -166,7 +166,8 @@ class OrdersController extends BaseController
                         Carbon::now(),
                         $orderSummery,
                         $currentUser->email,
-                        $orderValue
+                        $orderValue,
+                        $currentUser->name
                     ));
                     dispatch(new SendOnboardingEmail($currentUser,  $selectedPackage->packageCategory->title));
                     return $this->sendResponse([

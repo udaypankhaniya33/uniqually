@@ -15,18 +15,20 @@ class OrderConfirmationMailable extends Mailable
     public $orderDate;
     public $orderItems;
     public $netValue;
+    public $name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($orderId, $orderDate, $orderItems, $netValue)
+    public function __construct($orderId, $orderDate, $orderItems, $netValue, $name)
     {
         $this->orderId = $orderId;
         $this->orderDate = $orderDate;
         $this->orderItems = $orderItems;
         $this->netValue = $netValue;
+        $this->name = $name;
     }
 
     /**
