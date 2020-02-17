@@ -20,8 +20,11 @@ class CharityAssociationController extends BaseController
      */
     public function index() {
         $charities = Charity::all();
+        $userSelectedCharity = CharityAssociation::where('user_id', Auth::id())
+            ->join('charities', 'charity_associations.charity_id', '=', 'charities.id')->latest('charity_associations.id')->first();
         return $this->sendResponse([
             'charities' => $charities,
+            'selectedCharity' => $userSelectedCharity
         ],
             'Successfully retrieved all charities with details');
     }
