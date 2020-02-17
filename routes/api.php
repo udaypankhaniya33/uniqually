@@ -86,4 +86,6 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
     Route::post('verify-two-factor', 'API\User\TwoFactorAuthController@verifyTwoFactorCode');
     Route::post('submit-order', 'API\User\OrdersController@store');
     Route::get('order-details', 'API\User\DashboardOrderDetailsController@index');
+    Route::get('charity-list', 'API\User\CharityAssociationController@index');
+    Route::post('charity-association', 'API\User\CharityAssociationController@associate');
 });
