@@ -39,6 +39,9 @@ class CharityAssociationController extends BaseController
                'user_id' => Auth::id(),
                'charity_id' => request('charity_id')
            ]);
+           $charityAssociation->save();
+           return $this->sendResponse([],
+               'Successfully associated');
        }else{
            return $this->sendError('Please provide valid data', [
                'error' => [
