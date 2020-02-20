@@ -12,6 +12,6 @@ class PackageAddon extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'price', 'discounted_price', 'description', 'maximum_quantity'
+        'title', 'price', 'discounted_price', 'description', 'maximum_quantity', 'minimum_quantity'
     ];
 }
