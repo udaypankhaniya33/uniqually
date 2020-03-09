@@ -27,7 +27,8 @@ class RegistrationController extends BaseController
             'email' => 'required|string|unique:users|email|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|min:8|max:15'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
@@ -36,6 +37,7 @@ class RegistrationController extends BaseController
         $incomingData['name'] = encrypt(request('first_name').' '.request('last_name'));
         $incomingData['password'] = Hash::make(request('password'));
         $incomingData['email'] = request('email');
+        $incomingData['phone'] = request('phone');
         $incomingData['first_name'] = encrypt(request('first_name'));
         $incomingData['last_name'] = encrypt(request('last_name'));
         $incomingData['activation_code'] = Str::random(10);
