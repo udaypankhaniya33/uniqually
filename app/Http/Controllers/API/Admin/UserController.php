@@ -61,18 +61,19 @@ class UserController extends BaseController
         $validator = Validator::make(request()->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'user_type' => 'required|integer'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
         }
         $incomingData = request()->all();
-        $incomingData['type'] = config('constances.user_types')['ADMIN'];
+        $incomingData['type'] = request('user_type');
         $incomingData['password'] = Hash::make($incomingData['password']);
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
         User::create($incomingData);
-        return $this->sendResponse([], 'Successfully created the new admin user');
+        return $this->sendResponse([], 'Successfully created the new user');
     }
 
 }
