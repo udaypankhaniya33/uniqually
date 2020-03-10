@@ -24,7 +24,9 @@ class UserController extends BaseController
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             //Sending error if non admin user tried to access admin panel
-            if($user->type !== config('constances.user_types')['ADMIN']){
+            if($user->type !== config('constances.user_types')['ADMIN'] ||
+                $user->type !== config('constances.user_types')['ACCOUNT MANAGER'] ||
+                $user->type !== config('constances.user_types')['TAX PREPARER']){
                 return $this->sendError('Only admin users can access admin panel!', [], '401');
             }
             $userDetails = [

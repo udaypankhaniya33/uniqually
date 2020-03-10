@@ -16,7 +16,9 @@ return [
         'ADMIN'     => 1,
         'CUSTOMER'  => 2,
         'OM'        => 3,
-        'EXPERT'    => 4
+        'EXPERT'    => 4,
+        'ACCOUNT MANAGER' => 5,
+        'TAX PREPARER' => 6
     ]
 
 ];
