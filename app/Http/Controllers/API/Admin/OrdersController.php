@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\API\BaseController;
 use App\Order;
+use App\OrderStatus;
 use App\Package;
 use App\PackageAddon;
 use App\User;
@@ -37,8 +38,10 @@ class OrdersController extends BaseController
                 $addon->price = $addonData->discounted_price;
             }
         }
+        $orderStatuses = OrderStatus::all();
         return $this->sendResponse([
             'orders' => $orders,
+            'orderStatuses' => $orderStatuses
         ],
             'Successfully retrieved all orders with details');
     }
