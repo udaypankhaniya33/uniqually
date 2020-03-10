@@ -62,13 +62,14 @@ class UserController extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
-            'user_type' => 'required|integer'
+            'is_am' => 'required',
+            'is_tp' => 'required'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Please provide valid data', ['error'=>$validator->errors()], 422);
         }
         $incomingData = request()->all();
-        $incomingData['type'] = request('user_type');
+        $incomingData['type'] = config('constances.user_types')['ADMIN'];
         $incomingData['password'] = Hash::make($incomingData['password']);
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
