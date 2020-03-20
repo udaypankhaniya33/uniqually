@@ -73,10 +73,10 @@ class OrdersController extends BaseController
         $orderValue = 0;
         $quantity = 1;
         $itemEach = 0;
-        if(request()->has('base_package_id', 'paypal_order_id', 'paypal_payer_id', 'paypal_auth_token')) {
-            if($this->authorizePayment(request('paypal_order_id'), null)){
-                $payPalOrderAuthorizedId = $this->payPalSuccess->purchase_units[0]->payments->authorizations[0]->id;
-                if($this->capturePayment($payPalOrderAuthorizedId)){
+        if(request()->has('base_package_id')) {
+//            if($this->authorizePayment(request('paypal_order_id'), null)){
+//                $payPalOrderAuthorizedId = $this->payPalSuccess->purchase_units[0]->payments->authorizations[0]->id;
+//                if($this->capturePayment($payPalOrderAuthorizedId)){
                     $selectedPackage = Package::with('packageCategory')->find(request('base_package_id'));
                     $itemEach = $selectedPackage->discounted_price;
                     if (request()->has(['is_annual', 'expense']) && $selectedPackage->packageCategory->title === 'Bookkeeping') {
@@ -175,27 +175,11 @@ class OrdersController extends BaseController
                         'total_cost' => number_format((float)$orderValue, 2, '.', ''),
                         'order_id' => $createdOrder->custom_ind
                     ], 'Order has been submitted successfully!');
-                }else{
-                    return $this->sendError($this->payPalError->details[0]->issue, [
-                        'error' => [
-                            'desc' => $this->payPalError->details[0]->description
-                        ]
-                    ], 422);
                 }
-            }else{
-                return $this->sendError($this->payPalError->details[0]->issue, [
-                    'error' => [
-                        'desc' => $this->payPalError->details[0]->description
-                    ]
-                ], 422);
-            }
-        }else {
+        else {
             return $this->sendError('Please provide valid data', [
                 'error' => [
                     'base_package_id' => 'Base package is required to initiate order',
-                    'paypal_payer_id' => 'PayPal payer id is required',
-                    'paypal_auth_token' => 'PayPal authorization token is required',
-                    'paypal_order_id' => 'PayPal order id is required'
                 ]
             ], 422);
         }
