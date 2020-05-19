@@ -17,7 +17,8 @@ class Order extends Model
         'order_creator_location',
         'net_value',
         'base_package_id',
-        'custom_ind'
+        'custom_ind',
+        'order_status'
     ];
 
     /**
