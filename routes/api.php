@@ -59,6 +59,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
         Route::delete('question-answers/{id}', 'API\Admin\QuestionAnswersController@delete');
         //Orders
         Route::get('orders', 'API\Admin\OrdersController@index');
+        Route::post('orders/update-status', 'API\Admin\OrdersController@update');
     });
 });
 // Guest endpoints/routes
