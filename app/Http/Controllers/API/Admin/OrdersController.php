@@ -46,4 +46,26 @@ class OrdersController extends BaseController
             'Successfully retrieved all orders with details');
     }
 
+    /**
+     * Update order status of an order
+     * -----------------------------------------------------------------------------------------------------------------
+     * @param request()
+     * @return \Illuminate\Http\Response
+     */
+    public function update(){
+        if(request()->has('order_id', 'status_id')){
+            $order = Order::find(request('order_id'));
+            $order->order_status = (int)request('status_id');
+            $order->save();
+            return $this->sendResponse([
+                'order' => $order
+            ],
+                'Successfully updated order status');
+        }else{
+            return $this->sendError('Please provide valid data', [
+                'error' => 'Order Id and Status Id required!'
+            ], 422);
+        }
+    }
+
 }
