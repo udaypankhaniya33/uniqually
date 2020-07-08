@@ -99,4 +99,5 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
 Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
 {
     Route::get('entity-types', 'API\Guest\Entity\EntityTypesController@index');
+    Route::get('locations', 'API\Guest\Entity\LocationsController@index');
 });

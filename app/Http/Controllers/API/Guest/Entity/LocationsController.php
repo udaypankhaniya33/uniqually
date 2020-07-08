@@ -4,15 +4,15 @@ namespace App\Http\Controllers\API\Guest\Entity;
 
 use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
-use App\EntityType;
+use App\Location;
 
-class EntityTypesController extends BaseController
+class LocationsController extends Controller
 {
     public function index(){
-        $entityTypes = EntityType::all();
+        $locations = Location::all();
         return $this->sendResponse([
-            'entityTypes' => $entityTypes,
+            'locations' => $locations,
         ],
-            'Successfully retrieved all entity type details');
+            'Successfully retrieved all location details');
     }
 }
