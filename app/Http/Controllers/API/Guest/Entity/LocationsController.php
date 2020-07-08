@@ -6,7 +6,7 @@ use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
 use App\Location;
 
-class LocationsController extends Controller
+class LocationsController extends BaseController
 {
     public function index(){
         $locations = Location::all();
