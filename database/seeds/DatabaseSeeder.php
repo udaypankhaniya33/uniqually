@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EntityTypesSeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(FeaturesSeeder::class);
+        $this->call(AddonsSeeder::class);
     }
 }
