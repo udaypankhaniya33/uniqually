@@ -95,3 +95,8 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
     Route::get('charity-list', 'API\User\CharityAssociationController@index');
     Route::post('charity-association', 'API\User\CharityAssociationController@associate');
 });
+// Entity endpoints/routes
+Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
+{
+    Route::get('entity-types', 'API\Guest\Entity\EntityTypesController@index');
+});
