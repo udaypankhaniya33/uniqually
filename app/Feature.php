@@ -11,4 +11,8 @@ class Feature extends Model
         'description',
         'is_active'
     ];
+
+    public function productFeatures(){
+        return $this->hasMany('App/ProductFeature');
+    }
 }

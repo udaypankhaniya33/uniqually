@@ -24,4 +24,8 @@ class ProductEntityLocationPrice extends Model
     public function entity(){
         return $this->belongsTo('App/EntityType');
     }
+
+    public function productFeatures(){
+        return $this->hasMany('App/ProductFeature');
+    }
 }
