@@ -10,4 +10,8 @@ class Product extends Model
         'name',
         'description'
     ];
+
+    public function productEntityLocationPrices(){
+        return $this->hasMany('App/ProductEntityLocationPrice');
+    }
 }

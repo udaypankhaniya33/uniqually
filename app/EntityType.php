@@ -10,4 +10,8 @@ class EntityType extends Model
         'name',
         'is_active'
     ];
+
+    public function productEntityLocationPrices(){
+        return $this->hasMany('App/ProductEntityLocationPrice');
+    }
 }

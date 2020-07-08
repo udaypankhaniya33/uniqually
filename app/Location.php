@@ -10,4 +10,8 @@ class Location extends Model
         'location',
         'is_active'
     ];
+
+    public function productEntityLocationPrices(){
+        return $this->hasMany('App/ProductEntityLocationPrice');
+    }
 }
