@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Seed the application's database. 
      *
      * @return void
      */
@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocationSeeder::class);
         $this->call(FeaturesSeeder::class);
         $this->call(AddonsSeeder::class);
+        $this->call(FormationStepsSeeder::class);
     }
 }
