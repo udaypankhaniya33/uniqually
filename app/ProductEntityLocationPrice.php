@@ -32,4 +32,8 @@ class ProductEntityLocationPrice extends Model
     public function productAddonPrices(){
         return $this->hasMany('App/ProductAddonPrice');
     }
+
+    public function productFormationSteps(){
+        return $this->hasMany('App/ProductFormationStep');
+    }
 }

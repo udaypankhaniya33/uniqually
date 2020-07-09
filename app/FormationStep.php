@@ -11,4 +11,8 @@ class FormationStep extends Model
         'description',
         'img'
     ];
+
+    public function productFormationSteps(){
+        return $this->hasMany('App/ProductFormationStep');
+    }
 }
