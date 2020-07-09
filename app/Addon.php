@@ -10,4 +10,8 @@ class Addon extends Model
         'name',
         'is_active'
     ];
+
+    public function productAddonPrices(){
+        return $this->hasMany('App/ProductAddonPrice');
+    }
 }
