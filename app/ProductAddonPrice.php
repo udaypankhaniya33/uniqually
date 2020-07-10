@@ -14,10 +14,10 @@ class ProductAddonPrice extends Model
     ];
 
     public function productEntityLocationPrice(){
-        return $this->belongsTo('App/ProductEntityLocationPrice');
+        return $this->belongsTo('App\ProductEntityLocationPrice');
     }
 
     public function addon(){
-        return $this->belongsTo('App/Addon');
+        return $this->belongsTo('App\Addon');
     }
 }

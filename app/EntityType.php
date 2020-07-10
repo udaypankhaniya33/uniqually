@@ -12,6 +12,6 @@ class EntityType extends Model
     ];
 
     public function productEntityLocationPrices(){
-        return $this->hasMany('App/ProductEntityLocationPrice');
+        return $this->hasMany('App\ProductEntityLocationPrice', 'entity_id');
     }
 }

@@ -12,10 +12,10 @@ class ProductFeature extends Model
     ];
 
     public function productEntityLocationPrice(){
-        return $this->belongsTo('App/ProductEntityLocationPrice');
+        return $this->belongsTo('App\ProductEntityLocationPrice');
     }
 
     public function feature(){
-        return $this->belongsTo('App/Feature');
+        return $this->belongsTo('App\Feature');
     }
 }

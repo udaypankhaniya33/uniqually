@@ -13,8 +13,9 @@ class FormationStepsController extends BaseController
         $productEntityLocationPrices = ProductEntityLocationPrice::where('entity_id', $entityId)
             ->where('location_id', $locationId)
             ->with('productFormationSteps.formationStep')->get();
-        $formationSteps = [];
 
+        
+        $formationSteps = [];
         foreach ($productEntityLocationPrices as $key => $productEntityLocationPrice) {
             array_push($formationSteps, $productEntityLocationPrice->productFormationSteps);
         }

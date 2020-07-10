@@ -14,26 +14,26 @@ class ProductEntityLocationPrice extends Model
     ];
 
     public function product(){
-        return $this->belongsTo('App/Product');
+        return $this->belongsTo('App\Product');
     }
 
     public function location(){
-        return $this->belongsTo('App/Location');
+        return $this->belongsTo('App\Location');
     }
 
     public function entity(){
-        return $this->belongsTo('App/EntityType');
+        return $this->belongsTo('App\EntityType', 'entity_id');
     }
 
     public function productFeatures(){
-        return $this->hasMany('App/ProductFeature');
+        return $this->hasMany('App\ProductFeature');
     }
 
     public function productAddonPrices(){
-        return $this->hasMany('App/ProductAddonPrice');
+        return $this->hasMany('App\ProductAddonPrice');
     }
 
     public function productFormationSteps(){
-        return $this->hasMany('App/ProductFormationStep');
+        return $this->hasMany('App\ProductFormationStep');
     }
 }

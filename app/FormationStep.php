@@ -13,6 +13,6 @@ class FormationStep extends Model
     ];
 
     public function productFormationSteps(){
-        return $this->hasMany('App/ProductFormationStep');
+        return $this->hasMany('App\ProductFormationStep');
     }
 }

@@ -13,6 +13,6 @@ class Feature extends Model
     ];
 
     public function productFeatures(){
-        return $this->hasMany('App/ProductFeature');
+        return $this->hasMany('App\ProductFeature');
     }
 }

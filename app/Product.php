@@ -12,6 +12,6 @@ class Product extends Model
     ];
 
     public function productEntityLocationPrices(){
-        return $this->hasMany('App/ProductEntityLocationPrice');
+        return $this->hasMany('App\ProductEntityLocationPrice');
     }
 }

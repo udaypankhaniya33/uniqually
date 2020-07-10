@@ -13,10 +13,10 @@ class ProductFormationStep extends Model
     ];
 
     public function productEntityLocationPrice(){
-        return $this->belongsTo('App/ProductEntityLocationPrice');
+        return $this->belongsTo('App\ProductEntityLocationPrice');
     }
 
     public function formationStep(){
-        return $this->belongsTo('App/FormationStep');
+        return $this->belongsTo('App\FormationStep');
     }
 }
