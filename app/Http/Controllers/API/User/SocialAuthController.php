@@ -78,6 +78,9 @@ class SocialAuthController extends BaseController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+                if(request()->has('is_entity')){
+                    $initiatedUser['is_entity'] = true;
+                }
                 $initiatedUser->save();
                 $token = $initiatedUser->createToken('vManageTax')-> accessToken;
                 dispatch(new SendVerificationEmail($initiatedUser))->delay(Carbon::now()->addSeconds(2));
