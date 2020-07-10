@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Guest;
+namespace App\Http\Controllers\API\Guest\Uniqally;
 
 use App\CouponCode;
 use App\Http\Controllers\API\BaseController;
