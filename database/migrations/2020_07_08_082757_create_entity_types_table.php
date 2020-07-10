@@ -16,7 +16,7 @@ class CreateEntityTypesTable extends Migration
         Schema::create('entity_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 30);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

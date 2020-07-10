@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FeaturesSeeder::class);
         $this->call(AddonsSeeder::class);
         $this->call(FormationStepsSeeder::class);
+        $this->call(FormsSeeder::class);
+        $this->call(InputFieldsSeeder::class);
     }
 }

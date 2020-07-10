@@ -11,37 +11,37 @@ class AddonsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Prepare and File LLC',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Name Availability Search',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Phone and Email Support',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Online Document Access',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Special Credit Card Offer',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('addons')->insert([
+        \App\Addon::firstOrNew([
             'name' => 'Statement of Organizer',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),

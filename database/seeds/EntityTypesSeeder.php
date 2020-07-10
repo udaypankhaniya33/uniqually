@@ -11,25 +11,25 @@ class EntityTypesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('entity_types')->insert([
+        \App\EntityType::firstOrNew([
             'name' => 'LLC',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('entity_types')->insert([
+        \App\EntityType::firstOrNew([
             'name' => 'S - Corp',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('entity_types')->insert([
+        \App\EntityType::firstOrNew([
             'name' => 'C - Corp',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('entity_types')->insert([
+        \App\EntityType::firstOrNew([
             'name' => 'Non - Profit',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
