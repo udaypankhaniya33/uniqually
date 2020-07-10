@@ -17,7 +17,7 @@ class CreateInputFieldsTable extends Migration
             $table->bigIncrements('id');
             $table->string('type');
             $table->integer('limit')->nullable();
-            $table->boolean('is_required');
+            $table->boolean('is_required')->default(0);
             $table->timestamps();
         });
     }

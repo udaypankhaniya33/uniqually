@@ -17,7 +17,7 @@ class CreateFeaturesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

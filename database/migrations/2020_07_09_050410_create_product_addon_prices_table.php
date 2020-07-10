@@ -17,7 +17,7 @@ class CreateProductAddonPricesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_entity_location_price_id');
             $table->unsignedBigInteger('addon_id');
-            $table->boolean('is_included');
+            $table->boolean('is_included')->default(0);
             $table->double('price')->nullable();
             $table->timestamps();
         });

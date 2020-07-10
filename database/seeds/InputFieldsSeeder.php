@@ -11,21 +11,21 @@ class InputFieldsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('input_fields')->insert([
+        \App\InputField::firstOrNew([
             'type' => 'text',
             'limit' => 10,
             'is_required' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('input_fields')->insert([
+        \App\InputField::firstOrNew([
             'type' => 'radio',
             'limit' => 20,
             'is_required' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('input_fields')->insert([
+        \App\InputField::firstOrNew([
             'type' => 'text area',
             'limit' => 50,
             'is_required' => true,

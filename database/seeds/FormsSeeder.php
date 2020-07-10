@@ -11,13 +11,13 @@ class FormsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('forms')->insert([
+        \App\Form::firstOrNew([
             'name' => 'Personal information form',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('forms')->insert([
+        \App\Form::firstOrNew([
             'name' => 'Contact form',
             'is_active' => true,
             'created_at' => \Carbon\Carbon::now(),
