@@ -14,4 +14,8 @@ class Form extends Model
     public function formInputs(){
         return $this->hasMany('App\FormInput');
     }
+
+    public function formWizardForms(){
+        return $this->hasMany('App\FormWizardForms');
+    }
 }
