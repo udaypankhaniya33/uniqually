@@ -11,4 +11,8 @@ class InputField extends Model
         'limit',
         'is_required'
     ];
+
+    public function formInputs(){
+        return $this->hasMany('App\FormInput');
+    }
 }

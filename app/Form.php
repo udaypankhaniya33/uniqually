@@ -10,4 +10,8 @@ class Form extends Model
         'name', 
         'is_active'
     ];
+
+    public function formInputs(){
+        return $this->hasMany('App\FormInput');
+    }
 }
