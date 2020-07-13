@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FormationStepsSeeder::class);
         $this->call(FormsSeeder::class);
         $this->call(InputFieldsSeeder::class);
+        $this->call(FormWizardsSeeder::class);
     }
 }
