@@ -102,4 +102,5 @@ Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
     Route::get('locations', 'API\Guest\Entity\LocationsController@index');
     Route::get('formation-steps/{entityId}/{locationId}', 'API\Guest\Entity\FormationStepsController@getFormationStepsByEntityAndLocation');
     Route::get('products', 'API\Guest\Entity\ProductsController@index');
+    Route::get('form-wizards/{productId}', 'API\Guest\Entity\FormsController@getFormWizardsByProductId');
 });

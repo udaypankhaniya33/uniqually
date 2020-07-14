@@ -4,18 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Form extends Model
+class FormWizard extends Model
 {
     protected $fillable = [
-        'name', 
-        'is_active'
+        'name'
     ];
-
-    public function formInputs(){
-        return $this->hasMany('App\FormInput');
-    }
 
     public function formWizardForms(){
         return $this->hasMany('App\FormWizardForms');
+    }
+
+    public function formWizardProducts(){
+        return $this->hasMany('App\FormWizardProduct');
     }
 }
