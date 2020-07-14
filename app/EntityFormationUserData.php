@@ -8,7 +8,8 @@ class EntityFormationUserData extends Model
 {
     protected $fillable = [
         'user_id',
-        'form_wizard_product_id'
+        'form_wizard_product_id',
+        'data'
     ];
 
     public function user(){
