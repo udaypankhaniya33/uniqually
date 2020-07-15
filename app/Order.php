@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +17,9 @@ class Order extends Model
         'net_value',
         'base_package_id',
         'custom_ind',
-        'order_status'
+        'order_status',
+        'is_entity_order',
+        'product_entity_location_price_id'
     ];
 
     /**
