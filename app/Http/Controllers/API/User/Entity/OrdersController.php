@@ -13,6 +13,7 @@ use App\OrderAddon;
 class OrdersController extends BaseController
 {
     public function store(){
+        
         $currentUser = Auth::user();
         $orderAddons = request()->has('order_addons') ? request('order_addons') : null;
 
@@ -33,7 +34,7 @@ class OrdersController extends BaseController
     }
 
     public function order($productEntityLocationPriceId, $paymentOccurrence, $currentUser, $orderAddons){
-        
+       
         $netValue = 0;
         $selectedProductEntityLocationPrice = ProductEntityLocationPrice::with('product')->find($productEntityLocationPriceId);
 
@@ -64,26 +65,33 @@ class OrdersController extends BaseController
 
                 $productAddonPrice = ProductAddonPrice::find($orderAddon->id);
 
-                if($orderAddon->payment_occurrence === config('constances.payment_occurrences')['IS_ANNUAL']){
-                    $orderAddonsNetValue = $orderAddonsNetValue + ($productAddonPrice->price * 12) * ($productAddonPrice->annual_discount / 100);
-                }else{
-                    $orderAddonsNetValue = $orderAddonsNetValue + $productAddonPrice->price;
+                if($productAddonPrice){
+                    if($orderAddon->payment_occurrence === config('constances.payment_occurrences')['IS_ANNUAL']){
+                        $orderAddonsNetValue = $orderAddonsNetValue + ($productAddonPrice->price * 12) * ($productAddonPrice->annual_discount / 100);
+                    }else{
+                        $orderAddonsNetValue = $orderAddonsNetValue + $productAddonPrice->price;
+                    }
+    
+                    $createOrderAddon = new OrderAddon([
+                        'order_id' => $order->id,
+                        'package_addon_id' => null,
+                        'product_addon_price_id' => $orderAddon->id,
+                        'quantity' => $orderAddon->quantity,
+                        'payment_occurrence' => $orderAddon->payment_occurrence
+                    ]);
+                    $createOrderAddon->save();
                 }
-
-                $createOrderAddon = new OrderAddon([
-                    'order_id' => $order->id,
-                    'package_addon_id' => null,
-                    'product_addon_price_id' => $orderAddon->id,
-                    'quantity' => $orderAddon->quantity,
-                    'payment_occurrence' => $orderAddon->payment_occurrence
-                ]);
-                $createOrderAddon->save();
             }
 
             $order->net_value = $order->net_value + $orderAddonsNetValue;
             $order->save();
             
         }
+
+        return $this->sendResponse([
+            'order' => $order,
+            'orderAddons' => $orderAddons
+        ], 'Order has been submitted successfully!');
     }
     
 }
