@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Guest\Entity;
+namespace App\Http\Controllers\API\User\Entity;
 
 use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;

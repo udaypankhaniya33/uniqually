@@ -106,6 +106,6 @@ Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
 });
 Route::group(['prefix' => 'entity', 'middleware' => 'auth:api'], function()
 {
-    Route::post('user-data', 'API\Guest\Entity\UserDataController@store');
-    Route::post('order', 'API\Guest\Entity\OrdersController@store');
+    Route::post('user-data', 'API\User\Entity\UserDataController@store');
+    Route::post('order', 'API\User\Entity\OrdersController@store');
 });
