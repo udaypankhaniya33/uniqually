@@ -37,7 +37,7 @@ class OrdersController extends BaseController
         $netValue = 0;
         $selectedProductEntityLocationPrice = ProductEntityLocationPrice::with('product')->find($productEntityLocationPriceId);
 
-        if($paymentOccurrence === 3){
+        if(getPaymentOccurrenceById($paymentOccurrence) === 'IS_ANNUAL'){
             $netValue = ($selectedProductEntityLocationPrice->price * 12) * ($selectedProductEntityLocationPrice->annual_discount / 100);
         }else{
             $netValue = $selectedProductEntityLocationPrice->price;

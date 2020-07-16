@@ -51,6 +51,9 @@
         ]
     },
     "autoload-dev": {
+        "files": [
+            "app/Helpers/CommonHelper.php"
+        ],
         "psr-4": {
             "Tests\\": "tests/"
         }
