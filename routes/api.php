@@ -104,3 +104,8 @@ Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
     Route::get('products', 'API\Guest\Entity\ProductsController@index');
     Route::get('form-wizards/{productId}', 'API\Guest\Entity\FormsController@getFormWizardsByProductId');
 });
+Route::group(['prefix' => 'entity', 'middleware' => 'auth:api'], function()
+{
+    Route::post('user-data', 'API\User\Entity\UserDataController@store');
+    Route::post('order', 'API\User\Entity\OrdersController@store');
+});

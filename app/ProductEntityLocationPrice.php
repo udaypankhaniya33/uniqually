@@ -10,7 +10,8 @@ class ProductEntityLocationPrice extends Model
         'product_id',
         'location_id',
         'entity_id',
-        'price'
+        'price',
+        'annual_discount'
     ];
 
     public function product(){

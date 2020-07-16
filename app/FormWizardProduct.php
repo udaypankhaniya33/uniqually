@@ -19,4 +19,8 @@ class FormWizardProduct extends Model
     public function productEntityLocationPrice(){
         return $this->belongsTo('App\ProductEntityLocationPrice');
     }
+
+    public function entityFormationUserData(){
+        return $this->hasMany('App\EntityFormationUserData');
+    }
 }

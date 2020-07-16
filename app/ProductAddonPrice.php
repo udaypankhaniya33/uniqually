@@ -10,7 +10,8 @@ class ProductAddonPrice extends Model
         'product_entity_location_price_id',
         'addon_id',
         'is_included',
-        'price'
+        'price',
+        'annual_discount'
     ];
 
     public function productEntityLocationPrice(){
