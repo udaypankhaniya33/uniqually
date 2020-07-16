@@ -16,7 +16,8 @@ class OrderAddon extends Model
         'order_id',
         'package_addon_id',
         'quantity',
-        'payment_occurrence'
+        'payment_occurrence',
+        'product_addon_price_id'
     ];
 
     /**
