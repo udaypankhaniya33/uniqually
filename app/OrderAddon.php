@@ -15,7 +15,8 @@ class OrderAddon extends Model
     protected $fillable = [
         'order_id',
         'package_addon_id',
-        'quantity'
+        'quantity',
+        'payment_occurrence'
     ];
 
     /**

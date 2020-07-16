@@ -19,7 +19,8 @@ class Order extends Model
         'custom_ind',
         'order_status',
         'is_entity_order',
-        'product_entity_location_price_id'
+        'product_entity_location_price_id',
+        'payment_occurrence'
     ];
 
     /**
