@@ -58,16 +58,31 @@ class OrdersController extends BaseController
 
         if($orderAddons !== null){
             $orderAddons = json_decode($orderAddons);
+            $orderAddonsNetValue = 0;
 
             foreach ($orderAddons as $key => $orderAddon) {
+
+                $productAddonPrice = ProductAddonPrice::find($orderAddon->id);
+
+                if(getPaymentOccurrenceById($orderAddon->payment_occurrence) === 'IS_ANNUAL'){
+                    $orderAddonsNetValue = $orderAddonsNetValue + ($productAddonPrice->price * 12) * ($productAddonPrice->annual_discount / 100);
+                }else{
+                    $orderAddonsNetValue = $orderAddonsNetValue + $productAddonPrice->price;
+                }
+
                 $createOrderAddon = new OrderAddon([
                     'order_id' => $order->id,
-                    'package_addon_id' => $orderAddon->id,
+                    'package_addon_id' => null,
+                    'product_addon_price_id' => $orderAddon->id,
                     'quantity' => $orderAddon->quantity,
                     'payment_occurrence' => $orderAddon->payment_occurrence
                 ]);
                 $createOrderAddon->save();
             }
+
+            $order->net_value = $order->net_value + $orderAddonsNetValue;
+            $order->save();
+            
         }
     }
     
