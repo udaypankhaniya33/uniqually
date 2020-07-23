@@ -17,6 +17,12 @@ return [
         'CUSTOMER'  => 2,
         'OM'        => 3,
         'EXPERT'    => 4,
+    ],
+
+    'payment_occurrences' => [
+        'IS_ONE_TIME' => 1,
+        'IS_MONTHLY' => 2,
+        'IS_ANNUAL' => 3,
     ]
 
 ];

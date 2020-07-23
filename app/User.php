@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'type', 'first_name', 'last_name', 'email_verified_at',
-        'is_social_auth','activation_code', 'is_am', 'is_tp'
+        'is_social_auth','activation_code', 'is_am', 'is_tp', 'is_entity'
     ];
 
     /**
@@ -52,5 +52,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function isSocialMediaUser($email) {
        $user = User::where('email', $email)->first();
        return $user->is_social_auth && $user->password === null ? true : false;
+    }
+
+    public function entityFormationUserData(){
+        return $this->hasMany('App\EntityFormationUserData');
     }
 }

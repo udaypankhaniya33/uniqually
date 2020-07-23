@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        \App\User::firstOrNew([
             'name' => 'Default Admin',
             'email' => 'admin@vmanagetax.com',
             'password' => bcrypt('adminpass'),
@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('users')->insert([
+        \App\User::firstOrNew([
             'name' => 'Default Customer',
             'email' => 'customer@vmanagetax.com',
             'password' => bcrypt('customerpass'),
@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('users')->insert([
+        \App\User::firstOrNew([
             'name' => 'Default Expert',
             'email' => 'expert@vmanagetax.com',
             'password' => bcrypt('expertpass'),
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
-        DB::table('users')->insert([
+        \App\User::firstOrNew([
             'name' => 'Default OM',
             'email' => 'om@vmanagetax.com',
             'password' => bcrypt('ompass'),

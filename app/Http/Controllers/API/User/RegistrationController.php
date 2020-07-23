@@ -44,6 +44,9 @@ class RegistrationController extends BaseController
         $incomingData['is_social_auth'] = false;
         $incomingData['created_at'] = Carbon::now();
         $incomingData['updated_at'] = Carbon::now();
+        if(request()->has('is_entity')){
+            $incomingData['is_entity'] = true;
+        }
         try {
              $user = new User($incomingData);
              $user->save();
@@ -58,7 +61,8 @@ class RegistrationController extends BaseController
              ];
              return $this->sendResponse([
                  'user' => $resUser,
-                 'token' => $user->token
+                 'token' => $user->token,
+                 'incomingData' => $incomingData
              ],
                 'Account activation code was sent to '.$user->email);
         } catch (\Exception $ex) {

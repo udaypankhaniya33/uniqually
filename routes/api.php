@@ -65,8 +65,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'cors'], function()
 // Guest endpoints/routes
 Route::group(['prefix' => 'guest', 'middleware' => 'cors'], function()
 {
-    Route::post('subscribe', 'API\Guest\SubscribersController@store');
-    Route::get('pricing', 'API\Guest\PricingController@index');
+    Route::post('subscribe', 'API\Guest\Uniqally\SubscribersController@store');
+    Route::get('pricing', 'API\Guest\Uniqally\PricingController@index');
 });
 // System endpoints/routes
 Route::group(['prefix' => 'system', 'middleware' => 'cors'], function()
@@ -94,4 +94,19 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function()
     Route::get('order-details', 'API\User\DashboardOrderDetailsController@index');
     Route::get('charity-list', 'API\User\CharityAssociationController@index');
     Route::post('charity-association', 'API\User\CharityAssociationController@associate');
+    Route::post('change-password-request', 'API\User\PasswordChangeController@changePassword');
+});
+// Entity endpoints/routes
+Route::group(['prefix' => 'entity', 'middleware' => 'cors'], function()
+{
+    Route::get('entity-types', 'API\Guest\Entity\EntityTypesController@index');
+    Route::get('locations', 'API\Guest\Entity\LocationsController@index');
+    Route::get('formation-steps/{entityId}/{locationId}', 'API\Guest\Entity\FormationStepsController@getFormationStepsByEntityAndLocation');
+    Route::get('products', 'API\Guest\Entity\ProductsController@index');
+    Route::get('form-wizards/{productId}', 'API\Guest\Entity\FormsController@getFormWizardsByProductId');
+});
+Route::group(['prefix' => 'entity', 'middleware' => 'auth:api'], function()
+{
+    Route::post('user-data', 'API\User\Entity\UserDataController@store');
+    Route::post('order', 'API\User\Entity\OrdersController@store');
 });
