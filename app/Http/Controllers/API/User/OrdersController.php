@@ -71,7 +71,7 @@ class OrdersController extends BaseController
         $currentUser = Auth::user();
         //$location = Location::get(request()->ip());
         $appSettings = AppSetting::where('key', 'is_paypal_after_submission')->first();
-        $isPayPalEnabled = $appSettings->value == true ? false : true;
+        $isPayPalEnabled = $appSettings->value == 1 ? false : true;
         $isAnnual = request()->has('is_annual') ? request('is_annual') : false;
         $expense = request()->has('expense') ? request('expense') : null;
         $packageAddons = request()->has('package_addons') ? request('package_addons') : null;
